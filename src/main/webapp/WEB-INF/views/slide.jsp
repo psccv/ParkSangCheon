@@ -235,8 +235,8 @@ body section#contents h2, body section#contents h3 {
 	padding: 20px;
 }
 
-body section#contents h2:before, body section#contents h3:before {
-	content: '';
+/* body section#contents h2:before, body section#contents h3:before {
+	content:"";
 	position: absolute;
 	width: 34px;
 	height: 1px;
@@ -248,7 +248,7 @@ body section#contents h2:before, body section#contents h3:before {
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
-
+ */
 body section#contents li {
 	margin-bottom: 60px;
 }
@@ -395,6 +395,19 @@ body footer p small a:hover, body footer p small a:active {
 .nivoSlider img{
 	height: 630px !important;
 }
+.row{
+	margin-right:auto !important;
+	margin-left:auto !important;
+}
+.carousel-inner .item img{
+	height:630px !important;
+	width:100% !important;
+}
+.carousel-control .slide_arrow{
+	position: absolute;
+	top:50%;
+}
+
 
 
 /* ///////////////////////////////////////// 
@@ -478,7 +491,7 @@ body footer p small a:hover, body footer p small a:active {
 	</header>
 	<!-- e:header-->
 	
-	<script src="/resources/js/jquery.nivo.slider.js"></script>
+	<!-- <script src="/resources/js/jquery.nivo.slider.js"></script>
 	<link href="/resources/css/nivo-slider.css" media="screen" rel="stylesheet" type="text/css">
 	<script type="text/javascript">
 	jQuery(function($){ //j쿼리 시작 : $(document).ready(function(){ }); == $(function(){ }); 과 동일
@@ -498,15 +511,74 @@ body footer p small a:hover, body footer p small a:active {
 	           $('#slider img').attr("data-transition","slideInLeft");
 	      });
 	});
+	</script> -->
+	<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+	/*  jQuery(function($){
+		$('.carousel').carousel({
+			interval: 2000,
+			pause: false
+		});
+		
+	 };  */
+	$(document).ready(function($){
+		$('.carousel').carousel({
+			interval: 2000,
+			pause: false
+		});
+		
+	});
+	
 	</script>
 	
+	
 	<section class="banner_slider">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+	  <ol class="carousel-indicators">
+	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+	  </ol>
+	  
+	  <div class="carousel-inner">
+	    <div class="item active">
+	      <img src="/resources/images/maldives.jpg" class="d-block w-100" alt="...">
+	    </div>
+	    <div class="item">
+	      <img src="/resources/images/iceland.jpg" class="d-block w-100" alt="...">
+	    </div>
+	    <div class="item">
+	      <img src="/resources/images/panorama.jpg" class="d-block w-100" alt="...">
+	    </div>
+	    <div class="item">
+	      <img src="/resources/images/sea.jpg" class="d-block w-100" alt="...">
+	    </div>
+	  </div>
+	  
+	  <!-- <a class="left carousel-control" href="#carouselExampleIndicators" data-slide="prev" onclick="$('#carouselExampleIndicators').carousel('prev')" >
+	  <span class="slide_arrow" style="font-size:40px; font-weight=bold">&lt;</span>
+	  </a>
+	  <a class="right carousel-control" href="#carouselExampleIndicators" data-slide="next" onclick="$('#carouselExampleIndicators').carousel('next')">
+	  <span class="slide_arrow" style="font-size:40px; font-weight=bold">&gt;</span>
+	  </a> -->
+	  
+	  <a class="left carousel-control" href="#carouselExampleIndicators" role="button" data-slide="prev">
+	  	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	  </a>
+	  <a class="right carousel-control" href="#carouselExampleIndicators" role="button" data-slide="next">
+	  	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>  
+	  </a> 
+	</div>
+		<!-- 니보 슬라이더
 		<div id="slider" class="nivoSlider">
 			<img src="/resources/images/maldives.jpg" title="슬라이드1"  />
 			<img src="/resources/images/iceland.jpg" title="슬라이드2" />
 			<img src="/resources/images/panorama.jpg" title="슬라이드3" />
 			<img src="/resources/images/sea.jpg" title="슬라이드4" />
-		</div>
+		</div> -->
 	</section>
 	<section id="contents" class="row">
 		<article id="main">
