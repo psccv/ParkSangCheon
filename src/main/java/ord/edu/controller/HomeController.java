@@ -43,56 +43,67 @@ public class HomeController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/htmltest", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/htmltest", method = RequestMethod.GET)
 	public String htmltest(Locale locale, Model model) {
 		
 
-		return "htmltest";
+		return "sample/htmltest";
 	}
-	
+	/**
+	 * sample 파일 홈
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/sample/", method = RequestMethod.GET)
+	public String sample(Locale locale, Model model) {
+		
+
+		return "sample/home";
+	}
 	/** WE ARE
 	 * @param locale
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/weare", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/weare", method = RequestMethod.GET)
 	public String weare(Locale locale, Model model) {
 		
 
-		return "weare";
+		return "sample/weare";
 	}
 	/** WORK
 	 * @param locale
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/work", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/work", method = RequestMethod.GET)
 	public String work(Locale locale, Model model) {
 		
 
-		return "work";
+		return "sample/work";
 	}
 	/** BLOG
 	 * @param locale
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/blog", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/blog", method = RequestMethod.GET)
 	public String blog(Locale locale, Model model) {
 		
 
-		return "blog";
+		return "sample/blog";
 	}
 	/** CONTACK US
 	 * @param locale
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/contactus", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/contactus", method = RequestMethod.GET)
 	public String contactus(Locale locale, Model model) {
 		
 
-		return "contactus";
+		return "sample/contactus";
 	}
 	
 	/** SLIDE
@@ -100,10 +111,10 @@ public class HomeController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/slide", method = RequestMethod.GET)
+	@RequestMapping(value = "/sample/slide", method = RequestMethod.GET)
 	public String slide(Locale locale, Model model) {
 		
 
-		return "slide";
+		return "sample/slide";
 	}
 }

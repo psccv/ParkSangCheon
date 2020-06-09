@@ -277,7 +277,8 @@ body section#contents li p {
 
 body footer {
 	border-top: 1px solid black;
-	padding-top: 20px;
+	padding-top: 0px;
+	background-color:#A9E2F3;
 }
 
 body footer p {

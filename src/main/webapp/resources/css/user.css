@@ -21,7 +21,7 @@
 }
 
 .display-section .desc {
-	font-family: 'NanumGothic' !important;
+	font-family: "NanumGothic" !important;
 	color: #616161;
 	line-height: 1.9;
 }
@@ -52,7 +52,7 @@
 
 .promotion-section .promo-list li p {
 	font-size: 14px;
-	font-family: 'NanumGothic' !important;
+	font-family: "NanumGothic" !important;
 	color: #616161;
 	line-height: 1.5;
 }
@@ -223,7 +223,7 @@
 	font-size: 12px;
 	color: #fff;
 	background: #3f51b5;
-	font-family: 'NanumGothic' !important;
+	font-family: "NanumGothic" !important;
 	cursor: pointer;
 }
 
@@ -349,7 +349,7 @@
 		position: relative;
 		float: right;
 		padding-left: 20px;
-		font-family: 'NanumGothic' !important;
+		font-family: "NanumGothic" !important;
 		color: #616161;
 		line-height: 1.9;
 	}
@@ -416,10 +416,9 @@
 	}
 }
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
 /* 구글 나눔폰트 가져오기 */
 
-body, h1, h2, h3, h4, h5, h6, li, p, button {
+body, h1, h2, h3, h4, h5, h6,  p,  {
 
 font-family: "Nanum Gothic", "NanumGothic" !important;
 
