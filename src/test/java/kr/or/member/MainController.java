@@ -63,10 +63,14 @@ public class MainController {
 		timeClient.setDefaultTimeout(1000);
 		try {
 			timeClient.open();
+			System.out.println("try 실행");
+			throw new SocketException();//강제 오류 예외처리 (Exception) 처리
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
-			System.out.println("open 메서드 실행 오류");
+			System.out.println("catch 실행");
 			e.printStackTrace();
+		} finally {
+			System.out.println("finally는 오류에 상관없이 실행됩니다.");
 		}
 		InetAddress address = InetAddress.getByName(TIME_SERVER);
 	    TimeInfo timeInfo = timeClient.getTime(address);
