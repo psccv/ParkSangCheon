@@ -1,0 +1,8 @@
+2020-06-22 10:42:59,552  INFO [kr.or.test.Log4jTest] info !!!!!
+test 메서드를 사용한 PC의 아이피 : 192.168.56.1
+2020-06-22 10:42:59,567 DEBUG [kr.or.test.Log4jTest] debug !!!!!
+회원정보 [이름 : 홍길동, 나이 : 99세, 연락처 : 000-1111-2222]
+2020-06-22 10:42:59,567  INFO [kr.or.test.Log4jTest] info !!!!!
+2020-06-22 10:42:59,567  WARN [kr.or.test.Log4jTest] warn !!!!!
+2020-06-22 10:42:59,567 ERROR [kr.or.test.Log4jTest] error !!!!!
+2020-06-22 10:42:59,567 FATAL [kr.or.test.Log4jTest] fatal !!!!!
