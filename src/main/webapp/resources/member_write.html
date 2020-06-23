@@ -90,11 +90,11 @@
 								</p>
 						</a>
 							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link active">
+								<li class="nav-item"><a href="/resources/member_list.html" class="nav-link active">
 										<i class="far fa-circle nav-icon"></i>
 										<p>관리자 관리</p>
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
+								<li class="nav-item"><a href="/resources/board_list.html" class="nav-link"> <i
 										class="far fa-circle nav-icon"></i>
 										<p>게시판 관리</p>
 								</a></li>
@@ -134,7 +134,7 @@
 			<div class="content">
 				<div class="card card-warning">
 					<div class="card-header">
-						<h3 class="card-title">회원등록</h3>
+						<h3 class="card-title"><strong>회원등록</strong></h3>
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
@@ -169,30 +169,32 @@
 									
 									<dr>
 									<div class="form-group">
-									<label>활성화</label>
-									<select class="form-control">
-				                  	<option selected="" disabled="">Select one</option>
-				                  	<option>On Hold</option>
-				                  	<option>Canceled</option>
-				                  	<option selected="">Success</option>
+									<label>상태</label>
+									<select class="form-control" style="width:80px">
+				                  	<option selected="">True</option>
+				                  	<option>False</option>
 				                	</select>
 				                	</div>
 				                	<dr>
 				                	<div class="form-group">
-									<label>레벨</label>
-									<select class="form-control">
-				                  	<option selected="" disabled="">Select one</option>
-				                  	<option>On Hold</option>
-				                  	<option>Canceled</option>
-				                  	<option selected="">Success</option>
+									<label>등급</label>
+									<select class="form-control" style="width:110px">
+				                  	<option selected="">준회원</option>
+				                  	<option>정회원</option>
+				                  	<option>우수회원</option>
+				                  	<option>관리자</option>
 				                	</select>
 				                	</div>
 				                	<dr>
 				                	
 				                	
-								<button type="submit" class="btn btn-default" style="background-color:yellow">등록</button>
-								<button type="submit" class="btn btn-default" style="background-color:skyblue">돌아가기</button>
-							
+								<button type="button" class="btn btn-default" onclick="location.href='/resources/member_view.html' " style="background-color:yellow">
+								<strong>등록</strong></button>
+								<button type="button" class="btn btn-default" onclick="location.href='/resources/member_list.html' " style="background-color:skyblue">
+								<strong>돌아가기</strong>
+								</button>
+								
+         	
 						</form>
 
 					</div>

@@ -71,7 +71,7 @@
           
         </div>
       </div>
-
+      
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -89,13 +89,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="/resources/member_list.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>관리자 관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/resources/board_list.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>게시판 관리</p>
                 </a>
@@ -133,18 +133,17 @@
     <div class="content" >
     
             <div class="card" >
-              <div class="card-header" style="background-color:red" >
-                <h3 class="card-title">멤버 검색</h3>
+              <div class="card-header" style="background-color:#A2E9FF" >
+                <h3 class="card-title"><strong>회원 검색</strong></h3>
 				<br>
                 <div class="card-tools" >
-                  <div class="input-group" style="width: 500px">
-                  	<select class="form-control custom-select">
-                  	<option selected="" disabled="">Select one</option>
-                  	<option>On Hold</option>
-                  	<option>Canceled</option>
-                  	<option selected="">Success</option>
+                  <div class="input-group" style="width:500px;positon:relative;right:98%;padding:5px">
+                  	<select class="form-control" style="text-align:center">
+                  	<option selected="">준회원</option>
+                  	<option>정회원</option>
+                  	<option>우수회원</option>
                 	</select>
-                    <input type="text" name="table_search" class="form-control" placeholder="Search">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 					
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-default">검색</button>
@@ -154,45 +153,50 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
+              <div class="card-body table-responsive p-0" style="text-align:center">
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>User</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Reason</th>
+                      <th>아이디</th>
+                      <th>이름</th>
+                      <th>이메일</th>
+                      <th>상태</th>
+                      <th>등록일</th>
+                      <th>등급</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                       	<td>user183</td>
+                       	<td>John Doe</td>
+                       	<td>user183@test.com</td>
+                       	<td><span class="tag tag-success">True</span></td>
+                       	<td>11-7-2014</td>
+                    	<td>정회원</td>
                     </tr>
                     <tr>
-                      <td>219</td>
-                      <td>Alexander Pierce</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-warning">Pending</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    <td>user219</td>
+	                    <td>Alexander Pierce</td>
+	                    <td>user219@test.com</td>
+	                    <td><span class="tag tag-warning">True</span></td>
+	                    <td>11-7-2014</td>
+                    	<td>준회원</td>
                     </tr>
                     <tr>
-                      <td>657</td>
-                      <td>Bob Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-primary">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    <td>user657</td>
+	                    <td>Bob Doe</td>
+	                    <td>user657@test.com</td>
+	                    <td><span class="tag tag-primary">True</span></td>
+	                    <td>11-7-2014</td>
+                    	<td>우수회원</td>
                     </tr>
                     <tr>
-                      <td>175</td>
-                      <td>Mike Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-danger">Denied</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    <td>user175</td>
+	                    <td>Mike Doe</td>
+	                    <td>user175@test.com</td>
+	                    <td><span class="tag tag-danger">True</span></td>
+	                    <td>11-7-2014</td>
+                    	<td>준회원</td>
                     </tr>
                   </tbody>
                 </table>
@@ -201,8 +205,11 @@
             </div>
             <!-- /.card -->
          	
-         	<button type="submit" class="btn btn-default">등록</button>
-		    <ul class="pagination">
+         	<button type="button" onclick="location.href='/resources/member_write.html' "  class="btn btn-default" style="background-color:#148CFF">
+         	<strong>등록</strong></button>
+         	
+         	
+		    <ul class="pagination" style="position:relative;left:40%;">
 			    <li class="page-item"><a href="#" class="page-link">«</a></li>
 			    <li class="page-item"><a href="#" class="page-link">1</a></li>
 			    <li class="page-item"><a href="#" class="page-link">2</a></li>
