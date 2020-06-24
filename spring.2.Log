@@ -1,13 +1,4 @@
-2020-06-22 10:42:47,939  WARN [kr.or.test.Log4jTest] warn !!!!!
-2020-06-22 10:42:47,955 ERROR [kr.or.test.Log4jTest] error !!!!!
-2020-06-22 10:42:47,955 FATAL [kr.or.test.Log4jTest] fatal !!!!!
-2020-06-22 10:42:52,810  WARN [org.apache.log4j.joran.action.PriorityAction] Priority element has been deprecated, please use <level> instead.
-2020-06-22 10:42:52,889  INFO [kr.or.test.Log4jTest] info !!!!!
-test 메서드를 사용한 PC의 아이피 : 192.168.56.1
-2020-06-22 10:42:52,889 DEBUG [kr.or.test.Log4jTest] debug !!!!!
-회원정보 [이름 : 홍길동, 나이 : 99세, 연락처 : 000-1111-2222]
-2020-06-22 10:42:52,889  INFO [kr.or.test.Log4jTest] info !!!!!
-2020-06-22 10:42:52,889  WARN [kr.or.test.Log4jTest] warn !!!!!
-2020-06-22 10:42:52,889 ERROR [kr.or.test.Log4jTest] error !!!!!
-2020-06-22 10:42:52,889 FATAL [kr.or.test.Log4jTest] fatal !!!!!
-2020-06-22 10:42:59,489  WARN [org.apache.log4j.joran.action.PriorityAction] Priority element has been deprecated, please use <level> instead.
+2020-06-24 14:27:14,332  INFO [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping] Mapped "{[/sample/slide],methods=[GET]}" onto public java.lang.String ord.edu.controller.HomeController.slide(java.util.Locale,org.springframework.ui.Model)
+2020-06-24 14:27:14,441  INFO [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter] Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@cd2dae5: startup date [Wed Jun 24 14:27:13 KST 2020]; root of context hierarchy
+2020-06-24 14:27:14,516  INFO [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter] Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@cd2dae5: startup date [Wed Jun 24 14:27:13 KST 2020]; root of context hierarchy
+2020-06-24 14:27:14,595  INFO [org.springframework.web.servlet.handler.SimpleUrlHandlerMapping] Mapped URL path [/resources/**] onto handler 'org.springframework.web.servlet.resource.ResourceHttpRequestHandler#0'
