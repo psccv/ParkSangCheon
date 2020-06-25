@@ -8,18 +8,17 @@ import java.util.Calendar;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
 public class OpenApi {
 	
     public static void main(String[] args) {
-    	// 실행간격 지정(5초)
-    	int sleepSec = 5 ;
+    	// 실행간격 지정(10초)
+    	int sleepSec = 10 ;
     	// 주기적인 작업을 위한 
     	final ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
     	exec.scheduleAtFixedRate(new Runnable(){ 
     		public void run(){ 
     			try { 
-    				serviceApi();
+    				serviceApi(); //xml 출력
     			} catch (Exception e) { 
     				e.printStackTrace(); 
     				// 에러 발생시 Executor를 중지시킨다 
@@ -32,13 +31,11 @@ public class OpenApi {
     public static void serviceApi() {
 		BufferedReader br = null;
 		
-        try{    
-        	/*String urlstr = "http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp?returnType=XML"
-            		+ "&authKey=or8ZEdOWcW2VfG8cJVWCAG1U1HTqhOaH&pageNum=1"
-            		+ "&pageSize=10&srchTraStDt=20200622&srchTraEndDt=20200922&outType=1&sort=ASC&sortCol=TR_STT_DT";*/
-        	String urlstr = "http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp?returnType=XML"
-            		+ "&authKey=or8ZEdOWcW2VfG8cJVWCAG1U1HTqhOaH&pageNum=1"
-            		+ "&pageSize=10&srchTraStDt=20200622&srchTraEndDt=20200922&outType=1&sort=ASC&sortCol=TR_STT_DT";
+        try{ 
+        	//인증키를 사용한 URL
+        	String urlstr = "http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp?returnType=XML&"
+        			+ "authKey=or8ZEdOWcW2VfG8cJVWCAG1U1HTqhOaH&pageNum=1&pageSize=10&srchTraStDt=20200501"
+        			+ "&srchTraEndDt=20201231&outType=1&sort=DESC&sortCol=TR_STT_DT&srchTraArea1=44";
         	
             URL url = new URL(urlstr);
             HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();

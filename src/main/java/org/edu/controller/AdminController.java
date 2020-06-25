@@ -1,4 +1,4 @@
-package ord.edu.controller;
+package org.edu.controller;
 
 import java.util.Locale;
 

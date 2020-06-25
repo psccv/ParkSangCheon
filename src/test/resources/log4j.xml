@@ -30,7 +30,7 @@
 	<logger name="kr.or.test">
 		<level value="debug" />
 	</logger>
-	<logger name="ord.edu.controller">
+	<logger name="org.edu.controller">
 		<level value="info" />
 	</logger>
 	
@@ -53,7 +53,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<priority value="debug" />
 		<appender-ref ref="console" />
 		<appender-ref ref="fileLogger"/>
 	</root>
