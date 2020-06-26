@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../include/header.jsp"%>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -59,34 +60,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>4</td>
-                      <td>John Doe</td>
-                      <td>John Doe</td>
-                      <td><span class="tag tag-success">11-7-2014</span></td>
-                      <td>1000000</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Alexander Pierce</td>
-                      <td>Alexander Pierce</td>
-                      <td><span class="tag tag-warning">11-7-2014</span></td>
-                      <td>50000</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Bob Doe</td>
-                      <td>Bob Doe</td>
-                      <td><span class="tag tag-primary">11-7-2014</span></td>
-                      <td>999999</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Mike Doe</td>
-                      <td>Mike Doe</td>
-                      <td><span class="tag tag-danger">11-7-2014</span></td>
-                      <td>148752</td>
-                    </tr>
+                    <c:forEach items="${boardList}" var="boardVO" varStatus="status">
+							<tr>
+								<td>${boardVO.bno}</td>
+								<td>${boardVO.title}</td>
+								<td>${boardVO.writer}</td>
+								<td>${boardVO.regdate}</td>
+								<td>${boardVO.view_count}</td>
+							</tr>
+						</c:forEach>
                   </tbody>
                 </table>
               </div>
@@ -95,7 +77,7 @@
             <!-- /.card -->
             <div>
             
-            <button type="button" class="btn btn-default" onclick="location.href='/resources/board_write.html' " style="background-color:#148CFF">
+            <button type="button" class="btn btn-default" onclick="location.href='#' " style="background-color:#148CFF">
             <strong>글쓰기</strong>
             </button>
          	

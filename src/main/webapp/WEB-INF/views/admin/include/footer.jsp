@@ -40,7 +40,8 @@ $(document).ready(function() {
         //alert(curren);//디버그코드
         if(current=="/admin"||current=="/admin/"){
         }else{
-        	if($this.attr('href').includes(current) == true){
+        	//if($this.attr('href').includes(current) == true){ //includes 크롬에서만 작동
+        	if($this.attr('href').indexOf(current) != -1){ //indexOf 익스플로러에서도 작동 명시적이지 않음
            		$this.addClass('active');
         	}else{
         		$this.removeClass('active');

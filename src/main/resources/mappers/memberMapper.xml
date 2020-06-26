@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="selectMember" resultType="org.edu.vo.MemberVO">
-		select * from tbl_member order by reg_date ASC<!-- ASC 오름차순 DESC 내림차순 -->
+		select * from tbl_member order by reg_date DESC<!-- ASC 오름차순 DESC 내림차순 -->
 	</select>
 	
 	<update id="updateMember">
