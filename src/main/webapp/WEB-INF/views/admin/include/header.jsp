@@ -18,6 +18,13 @@
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 </head>
+
+<script>
+	if('${msg}' == "success"){
+		alert("수정완료");
+	}
+</script>
+
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
 		<!-- Navbar -->
@@ -90,7 +97,7 @@
 							<ul class="nav nav-treeview">
 								<li class="nav-item"><a href="/admin/member/list"
 									class="nav-link"> <i class="far fa-circle nav-icon"></i>
-										<p>관리자 관리</p>
+										<p>회원 관리</p>
 								</a></li>
 								<li class="nav-item"><a href="/admin/board/list"
 									class="nav-link"> <i class="far fa-circle nav-icon"></i>

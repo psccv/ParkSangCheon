@@ -10,7 +10,7 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Starter Page</h1>
+					<h1 class="m-0 text-dark">DashBoard Management</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -38,42 +38,32 @@
 			<!-- /.card-header -->
 			<div class="card-body">
 				<form role="form">
-
-					<!-- text input -->
 					<div class="form-group">
-						<label>제목</label> <input type="text" value="하이루"
-							class="form-control" disabled="">
+						<label>제목</label><br> ${boardVO.title}
 					</div>
-
-					<!-- textarea -->
 					<div class="form-group">
-						<label>내용</label>
-						<textarea class="form-control" rows="3" style="height: 200px"
-							disabled="">안녕하세요</textarea>
+						<label>내용</label><br>
+						<textarea name="content" type="text" class="form-control" placeholder="내용..."
+							style="height: 200px" disabled="">${boardVO.content}</textarea>
 					</div>
-
 					<div class="form-group">
-						<label>작성자</label> <input type="text" value="둘리아빠"
-							class="form-control" disabled="">
-
+						<label>작성자</label><br> ${boardVO.writer}
 					</div>
-
+					<div class="form-group">
+						<a href="/admin/board/update?bno=${boardVO.bno}" class="btn btn-default"
+							style="position: relative; background-color:#FFD228">
+							<strong>수정</strong>
+						</a>
+						<a href="#" class="btn btn-default"
+							style="position: relative; background-color:#EB3232">
+							<strong>삭제</strong>
+						</a>
+						<a href="/admin/board/list" class="btn btn-default"
+							style="position: relative; background-color:#0A6ECD">
+							<strong>돌아가기</strong>
+						</a>
+					</div>
 				</form>
-				<button type="button" class="btn btn-default"
-					onclick="location.href='#' "
-					style="position: relative; background-color: #FFD228">
-					<strong>수정</strong>
-				</button>
-				<button type="button" class="btn btn-default"
-					onclick="location.href='#' "
-					style="position: relative; background-color: #EB3232">
-					<strong>삭제</strong>
-				</button>
-				<button type="button" class="btn btn-default"
-					onclick="location.href='#' "
-					style="position: relative; background-color: #0A6ECD">
-					<strong>돌아가기</strong>
-				</button>
 			</div>
 			<!-- /.card-body -->
 		</div>
@@ -101,19 +91,18 @@
 						<textarea class="form-control" rows="3" placeholder="내용 ..."></textarea>
 					</div>
 					<div class="form-group">
-						<button type="button" class="btn btn-default"
-							onclick="location.href='#replayview' "
+						<a href="#" class="btn btn-default"
 							style="position: relative; background-color: #50B4F5">
 							<strong>작성</strong>
-						</button>
+						</a>
 					</div>
 				</form>
 
 				<div id="replayview" class="form-group">
-					<button type="text" class="btn btn-default"
+					<a href="#" class="btn btn-default"
 						style="position: relative; background-color: #FC3F00; width: 114px">
 						<strong>댓글목록</strong>
-					</button>
+					</a>
 
 					<div class="card-body table-responsive p-0"
 						style="text-align: center">

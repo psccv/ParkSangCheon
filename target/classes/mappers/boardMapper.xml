@@ -15,10 +15,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="org.edu.dao.IF_BoardDAO">
-	<!-- CREATE MEMORY TABLE tbl_board(bno  PRIMARY KEY,title,content ,writer,regdate ,update_date,view_count,reply_count) -->
+	
 	<insert id="insertBoard">
-		insert into tbl_board(bno, title, content, writer, regdate, view_count, reply_count)
-		values(#{bno},#{title}, #{content}, #{writer}, now(),#{view_count},#{reply_count})	
+		insert into tbl_board(title, content, writer, regdate, view_count, reply_count)
+		values(#{title}, #{content}, #{writer}, now(),#{view_count},#{reply_count})	
 	</insert>
 	
 	<select id="selectBoard" resultType="org.edu.vo.BoardVO">		
@@ -32,12 +32,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		writer = #{writer},
 		update_date = now(),
 		view_count = #{view_count},
-		reply_count = #{reply_count},
+		reply_count = #{reply_count}
 		where bno = #{bno}
 	</update>
 	
 	<delete id="deleteBoard">
 		delete from tbl_board where bno = #{bno}
 	</delete>
-
+	
+	<select id="viewBoard" resultType="org.edu.vo.BoardVO">		
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
 </mapper>

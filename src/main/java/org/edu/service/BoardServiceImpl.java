@@ -34,4 +34,9 @@ public class BoardServiceImpl implements IF_BoardService {
 		boardDAO.deleteBoard(bno);
 	}
 
+	@Override
+	public BoardVO viewBoard(Integer bno) throws Exception {
+		return boardDAO.viewBoard(bno);
+	}
+
 }

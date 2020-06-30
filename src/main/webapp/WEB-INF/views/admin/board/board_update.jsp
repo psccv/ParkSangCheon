@@ -32,25 +32,27 @@
 		<div class="card card-warning">
 			<div class="card-header">
 				<h3 class="card-title">
-					<strong>게시물 작성</strong>
+					<strong>게시물 수정</strong>
 				</h3>
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form" action="/admin/board/write" method="POST" >
+				<form role="form" action="/admin/board/update" method="POST" >
 					<!-- text input -->
 					<div class="form-group">
-						<label>제목</label> <input name="title" type="text" class="form-control"
+						<label>제목</label> 
+						<input name="title" type="text" value="${boardVO.title}" class="form-control"
 							placeholder="제목 ...">
 					</div>
 					<div class="form-group">
 						<label>내용</label>
 						<textarea name="content" type="text" class="form-control" placeholder="내용..."
-							style="height: 200px"></textarea>
+							style="height: 200px">${boardVO.content}</textarea>
 					</div>
 					<!-- textarea -->
 					<div class="form-group">
-						<label>작성자</label> <input name="writer" class="form-control" rows="3"
+						<label>작성자</label> 
+						<input name="writer" value="${boardVO.writer}" class="form-control" rows="3"
 							placeholder="글쓴이 ...">
 					</div>
 					<div class="form-group">
@@ -64,6 +66,7 @@
 						<label>선택된 파일이 없음</label>
 					</div>
 					<div class="form-group">
+						<input type="hidden" name="bno" value="${boardVO.bno}">
 						<button type="submit" class="btn btn-default"
 							style="position: relative; background-color:#FFC314">
 							<strong>등록</strong>

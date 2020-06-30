@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Starter Page</h1>
+            <h1 class="m-0 text-dark">DashBoard Management</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -63,7 +63,7 @@
                     <c:forEach items="${boardList}" var="boardVO" varStatus="status">
 							<tr>
 								<td>${boardVO.bno}</td>
-								<td>${boardVO.title}</td>
+								<td><a href="/admin/board/view?bno=${boardVO.bno}">${boardVO.title}</a></td>
 								<td>${boardVO.writer}</td>
 								<td>${boardVO.regdate}</td>
 								<td>${boardVO.view_count}</td>
@@ -77,11 +77,12 @@
             <!-- /.card -->
             <div>
             
-            <button type="button" class="btn btn-default" onclick="location.href='#' " style="background-color:#148CFF">
-            <strong>글쓰기</strong>
-            </button>
+            <a href="/admin/board/write" class="btn btn-default"
+            	style="background-color:#148CFF">
+            	<strong>글쓰기</strong>
+            </a>
          	
-         	<ul class="pagination" style="position:relative;left:40%;">
+         	<ul class="pagination" style="position:relative;left:40%">
 			    <li class="page-item"><a href="#" class="page-link">«</a></li>
 			    <li class="page-item"><a href="#" class="page-link">1</a></li>
 			    <li class="page-item"><a href="#" class="page-link">2</a></li>

@@ -31,50 +31,63 @@
 		<div class="card card-warning">
 			<div class="card-header">
 				<h3 class="card-title">
-					<strong>회원등록</strong>
+					<strong>회원정보 수정</strong>
 				</h3>
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form" action="/admin/member/write" method="POST">
+				<form role="form" action="/admin/member/update" method="POST">
 					<dr>
 					<div class="form-group">
-						<label>아이디</label> <input name="user_id" type="text" class="form-control"
+						<label>아이디</label> <br>${memberVO.user_id}
+						<input name="user_id" value="${memberVO.user_id}" type="hidden" class="form-control"
 							placeholder="아이디">
 					</div>
 					<dr>
 					<div class="form-group">
-						<label>패스워드</label> <input name="user_pw" type="text" class="form-control"
+						<label>패스워드</label> 
+						<input name="user_pw" value="${memberVO.user_pw}" type="text" class="form-control"
 							placeholder="패스워드">
 					</div>
 					<dr>
 					<div class="form-group">
-						<label>이름</label> <input name="user_name" type="text" class="form-control"
+						<label>이름</label> 
+						<input name="user_name" value="${memberVO.user_name}" type="text" class="form-control"
 							placeholder="이름">
 					</div>
 					<dr>
 					<div class="form-group">
-						<label>이메일</label> <input name="email" type="text" class="form-control"
+						<label>이메일</label> 
+						<input name="email" value="${memberVO.email}" type="text" class="form-control"
 							placeholder="이메일">
 					</div>
 					<dr>
 					<div class="form-group">
-						<label>포인트</label> <input name="point" type="text" class="form-control"
+						<label>포인트</label>
+						<input name="point" value="${memberVO.point}" type="text" class="form-control"
 							placeholder="포인트">
 						<dr>
 						<div class="form-group">
 						<label>상태</label> 
 							<select name="enabled" class="form-control" style="width: 90px">
-								<option value="1" selected="">True</option>
-								<option value="0">False</option>
+								<option value="0" 
+								<c:out value="${memberVO.enabled eq 'false'?'selected':''}"></c:out>
+								>False</option>
+								<option value="1" 
+								<c:out value="${memberVO.enabled eq 'true'?'selected':''}"></c:out>
+								>True</option>
 							</select>
 						</div>
 						<dr>
 						<div class="form-group">
 							<label>등급</label> <select name="levels" class="form-control"
 								style="width: 140px">
-								<option value="ROLE_USER">ROLE_USER</option>
-								<option value="ROLE_ADMIN">ROLE_ADMIN</option>
+								<option value="ROLE_USER" 
+								<c:out value="${memberVO.levels eq 'ROLE_USER'?'selected':''}"></c:out>
+								>ROLE_USER</option>
+								<option value="ROLE_ADMIN" 
+								<c:out value="${memberVO.levels eq 'ROLE_ADMIN'?'selected':''}"></c:out>
+								>ROLE_ADMIN</option>
 							</select>
 						</div>
 						<dr>

@@ -32,4 +32,9 @@ public class MemberServiceImpl implements IF_MemberService {
 		memberDAO.deleteMember(user_id);
 	}
 
+	@Override
+	public MemberVO viewSelect(String user_id) throws Exception {
+		return memberDAO.viewMember(user_id);
+	}
+
 }

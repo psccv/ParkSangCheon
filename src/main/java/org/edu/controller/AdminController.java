@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminController {
@@ -34,7 +36,7 @@ public class AdminController {
 		return "admin/home";
 	}
 	/**
-	 * 회원목록 입니다.
+	 * 회원관리 목록 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
@@ -50,19 +52,20 @@ public class AdminController {
 		return "admin/member/member_list";
 	}
 	/**
-	 * 회원 상세보기 입니다.
+	 * 회원관리 상세보기 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/admin/member/view", method = RequestMethod.GET)
-	public String memberView(Locale locale, Model model) throws Exception {
-		
+	public String memberView(@RequestParam("user_id") String user_id, Locale locale, Model model) throws Exception {
+		MemberVO memberVO = memberService.viewSelect(user_id);
+		model.addAttribute("memberVO", memberVO);
 		return "admin/member/member_view";
 	}
 	/**
-	 * 회원등록 입니다.
+	 * 회원관리 등록 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
@@ -70,11 +73,37 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/member/write", method = RequestMethod.GET)
 	public String memberWrite(Locale locale, Model model) throws Exception {
-		
 		return "admin/member/member_write";
 	}
+	@RequestMapping(value = "/admin/member/write", method = RequestMethod.POST)
+	public String memberWrite(MemberVO memberVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		memberService.insertMember(memberVO);
+		return "redirect:/admin/member/list";
+	}
 	/**
-	 * 게시물 목록 입니다.
+	 * 회원관리 수정 입니다.
+	 * @param locale
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/admin/member/update", method = RequestMethod.GET)
+	public String memberUpdate(@RequestParam("user_id") String user_id, Locale locale, Model model) throws Exception {
+		MemberVO memberVO = memberService.viewSelect(user_id);
+		model.addAttribute("memberVO", memberVO);
+		return "admin/member/member_update";
+	}
+	@RequestMapping(value = "/admin/member/update", method = RequestMethod.POST)
+	public String memberUpdate(MemberVO memberVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "success");
+		return "redirect:/admin/member/view?user_id=" + memberVO.getUser_id();
+	}
+	
+	
+	
+	/**
+	 * 게시물관리 목록 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
@@ -90,19 +119,20 @@ public class AdminController {
 		return "admin/board/board_list";
 	}
 	/**
-	 * 게시물 상세보기 입니다.
+	 * 게시물관리 상세보기 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/admin/board/view", method = RequestMethod.GET)
-	public String boardView(Locale locale, Model model) throws Exception {
-		
+	public String boardView(@RequestParam("bno") Integer bno, Locale locale, Model model) throws Exception {
+		BoardVO boardVO = boardService.viewBoard(bno);
+		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_view";
 	}
 	/**
-	 * 게시물 작성 입니다.
+	 * 게시물관리 등록 입니다.
 	 * @param locale
 	 * @param model
 	 * @return
@@ -110,7 +140,30 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/board/write", method = RequestMethod.GET)
 	public String boardWrite(Locale locale, Model model) throws Exception {
-		
 		return "admin/board/board_write";
+	}
+	@RequestMapping(value = "/admin/board/write", method = RequestMethod.POST)
+	public String boardWrite(BoardVO boardVO, Locale locale, Model model) throws Exception {
+		boardService.insertBoard(boardVO);
+		return "redirect:/admin/board/list";
+	}
+	/**
+	 * 게시물관리 수정 입니다.
+	 * @param locale
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/admin/board/update", method = RequestMethod.GET)
+	public String boardUpdate(@RequestParam("bno") Integer bno, Locale locale, Model model) throws Exception {
+		BoardVO boardVO = boardService.viewBoard(bno);
+		model.addAttribute("boardVO", boardVO);
+		return "admin/board/board_update";
+	}
+	@RequestMapping(value = "/admin/board/update", method = RequestMethod.POST)
+	public String boardUpdate(BoardVO boardVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		boardService.updateBoard(boardVO);
+		rdat.addFlashAttribute("msg", "success");
+		return "redirect:/admin/board/view?bno=" + boardVO.getBno();
 	}
 }
