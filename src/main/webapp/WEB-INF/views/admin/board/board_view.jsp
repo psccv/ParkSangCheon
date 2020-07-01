@@ -37,7 +37,7 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form">
+				<form role="form" action="/admin/board/delete" method="POST">
 					<div class="form-group">
 						<label>제목</label><br> ${boardVO.title}
 					</div>
@@ -54,15 +54,16 @@
 							style="position: relative; background-color:#FFD228">
 							<strong>수정</strong>
 						</a>
-						<a href="#" class="btn btn-default"
+						<button type="submit"  class="btn btn-default"
 							style="position: relative; background-color:#EB3232">
 							<strong>삭제</strong>
-						</a>
+						</button>
 						<a href="/admin/board/list" class="btn btn-default"
 							style="position: relative; background-color:#0A6ECD">
 							<strong>돌아가기</strong>
 						</a>
 					</div>
+					<input name="bno" type="hidden" value="${boardVO.bno}">
 				</form>
 			</div>
 			<!-- /.card-body -->

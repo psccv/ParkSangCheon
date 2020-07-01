@@ -1,5 +1,6 @@
 package org.edu.vo;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class BoardVO {
@@ -11,6 +12,8 @@ public class BoardVO {
 	private Date update_date;
 	private int view_count;
 	private int reply_count;
+	
+	private String[] files;//첨부파일용 변수 첨부파일이 여러개일 수 있으니 배열로 생성
 	
 	public Integer getBno() {
 		return bno;
@@ -60,11 +63,17 @@ public class BoardVO {
 	public void setReply_count(int reply_count) {
 		this.reply_count = reply_count;
 	}
+	public String[] getFiles() {
+		return files;
+	}
+	public void setFiles(String[] files) {
+		this.files = files;
+	}
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
 				+ regdate + ", update_date=" + update_date + ", view_count=" + view_count + ", reply_count="
-				+ reply_count + "]";
+				+ reply_count + ", files=" + Arrays.toString(files) + "]";
 	}
 	
 		

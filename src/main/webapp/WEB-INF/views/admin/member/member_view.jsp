@@ -37,7 +37,7 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form">
+				<form role="form" action="/admin/member/delete" method="POST">
 					<dr>
 					<div class="form-group">
 						<label>아이디</label><br> ${memberVO.user_id}
@@ -70,13 +70,14 @@
 						<a href="/admin/member/update?user_id=${memberVO.user_id}" class="btn btn-default"
 							style="background-color: yellow; position: relative; left: 78%">
 							<strong>수정</strong>
-						</a> <a href="#" class="btn btn-default"
+						</a> <button type="submit" class="btn btn-default"
 							style="background-color: red; position: relative; left: 78%">
 							<strong>삭제</strong>
-						</a> <a href="/admin/member/list" class="btn btn-default"
+						</button> <a href="/admin/member/list" class="btn btn-default"
 							style="background-color: skyblue; position: relative; left: 78%">
 							<strong>돌아가기</strong>
 						</a>
+						<input name="user_id" type="hidden" value="${memberVO.user_id}">
 				</form>
 				<!-- /.card-body -->
 			</div>

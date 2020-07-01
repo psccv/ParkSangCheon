@@ -17,6 +17,14 @@ public class BoardServiceImpl implements IF_BoardService {
 	@Override
 	public void insertBoard(BoardVO boardVO) throws Exception {
 		boardDAO.insertBoard(boardVO);
+		//첨부파일용 서비스 추가
+		String[] files = boardVO.getFiles();
+		if(files==null) {
+			return;
+		}
+		for(String fileName : files) {
+			boardDAO.insertAttach(fileName);
+		}
 	}
 
 	@Override
@@ -38,5 +46,6 @@ public class BoardServiceImpl implements IF_BoardService {
 	public BoardVO viewBoard(Integer bno) throws Exception {
 		return boardDAO.viewBoard(bno);
 	}
+
 
 }

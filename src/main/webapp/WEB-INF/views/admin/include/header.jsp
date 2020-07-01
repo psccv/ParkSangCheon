@@ -17,13 +17,19 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-</head>
 
 <script>
-	if('${msg}' == "success"){
-		alert("수정완료");
+	switch('${msg}'){
+		case "writeSuccess" : alert("등록완료.!"); 
+		break;
+		case "updateSuccess" : alert("수정완료.!"); 
+		break;
+		case "deleteSuccess" : alert("삭제완료.!");
+		break;
 	}
 </script>
+
+</head>
 
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">

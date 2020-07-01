@@ -37,7 +37,7 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form" action="/admin/board/write" method="POST" >
+				<form role="form" action="/admin/board/write" method="POST" enctype="multipart/form-data">
 					<!-- text input -->
 					<div class="form-group">
 						<label>제목</label> <input name="title" type="text" class="form-control"
@@ -58,10 +58,13 @@
 						<textarea class="form-control" rows="3" placeholder="" disabled=""></textarea>
 					</div>
 					<div class="form-group">
-						<label>아래 기존 파일 업로드창 사용 가능</label> <br>
-						<button name="file" type="submit" class="btn btn-default"
-							style="position: relative; background-color: #F57878">파일선택</button>
-						<label>선택된 파일이 없음</label>
+						<div class="custom-file">
+							<tr>
+								<td>아래 기존 파일 업로드 창 사용가능</td>
+								<br>
+								<td><input type="file" value="파일 선택" name="file" /></td>
+							</tr>
+						</div>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-default"
