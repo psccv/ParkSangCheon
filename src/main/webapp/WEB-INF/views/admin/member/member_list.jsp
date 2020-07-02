@@ -31,15 +31,15 @@
 	<div class="content">
 
 		<div class="card">
-			<div class="card-header" style="background-color: #A2E9FF">
+			<div class="card-header" style="background-color:#A2E9FF;">
 				<h3 class="card-title">
 					<strong>회원 검색</strong>
 				</h3>
 				<br>
 				<div class="card-tools">
 					<div class="input-group"
-						style="width: 500px; positon: relative; right: 98%; padding: 5px">
-						<select class="form-control" style="text-align: center">
+						style="width:500px;positon:relative;right:98%;padding:5px;">
+						<select class="form-control" style="text-align:center;">
 							<option selected="">준회원</option>
 							<option>정회원</option>
 							<option>우수회원</option>
@@ -55,7 +55,7 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body table-responsive p-0"
-				style="text-align: center">
+				style="text-align:center;">
 				<table class="table table-hover text-nowrap">
 					<thead>
 						<tr>
@@ -87,12 +87,12 @@
 		<!-- /.card -->
 
 		<a href="/admin/member/write" class="btn btn-default" 
-			style="background-color:#148CFF">
+			style="background-color:#148CFF;">
 			<strong>등록</strong>
 		</a>
 
 
-		<ul class="pagination" style="position: relative; left: 40%;">
+		<ul class="pagination" style="position:relative;left:40%;">
 			<li class="page-item"><a href="#" class="page-link">«</a></li>
 			<li class="page-item"><a href="#" class="page-link">1</a></li>
 			<li class="page-item"><a href="#" class="page-link">2</a></li>

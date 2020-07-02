@@ -46,7 +46,7 @@
 					<div class="form-group">
 						<label>내용</label>
 						<textarea name="content" type="text" class="form-control" placeholder="내용..."
-							style="height: 200px"></textarea>
+							style="height:200px;"></textarea>
 					</div>
 					<!-- textarea -->
 					<div class="form-group">
@@ -62,17 +62,17 @@
 							<tr>
 								<td>아래 기존 파일 업로드 창 사용가능</td>
 								<br>
-								<td><input type="file" value="파일 선택" name="file" /></td>
+								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" /></td>
 							</tr>
 						</div>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-default"
-							style="position: relative; background-color:#FFC314">
+							style="position:relative; background-color:#FFC314;">
 							<strong>등록</strong>
 						</button>
 						<a href="/admin/board/list" class="btn btn-default"
-							style="position: relative; background-color: #3CA0FF">
+							style="position:relative; background-color:#3CA0FF;">
 							<strong>돌아가기</strong>
 						</a>
 					</div>

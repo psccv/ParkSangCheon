@@ -32,8 +32,8 @@
                 <h3 class="card-title"><strong>게시판 목록</strong></h3>
 				<br>
                 <div class="card-tools">
-                  <div class="input-group" style="width:500px;positon:relative;padding:5px;right:98%">
-                  	<select class="form-control" style="text-align:center">
+                  <div class="input-group" style="width:500px;positon:relative;padding:5px;right:98%;">
+                  	<select class="form-control" style="text-align:center;">
                   	<option selected="">제목</option>
                   	<option>내용</option>
                   	<option>작성자</option>
@@ -48,7 +48,7 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0" style="text-align:center">
+              <div class="card-body table-responsive p-0" style="text-align:center;">
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
@@ -78,11 +78,11 @@
             <div>
             
             <a href="/admin/board/write" class="btn btn-default"
-            	style="background-color:#148CFF">
+            	style="background-color:#148CFF;">
             	<strong>글쓰기</strong>
             </a>
          	
-         	<ul class="pagination" style="position:relative;left:40%">
+         	<ul class="pagination" style="position:relative;left:40%;">
 			    <li class="page-item"><a href="#" class="page-link">«</a></li>
 			    <li class="page-item"><a href="#" class="page-link">1</a></li>
 			    <li class="page-item"><a href="#" class="page-link">2</a></li>

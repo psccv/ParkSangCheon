@@ -1,20 +1,28 @@
 package org.edu.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemberService;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.springframework.cglib.reflect.MethodDelegate;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -24,7 +32,9 @@ public class AdminController {
 	private IF_MemberService memberService;
 	@Inject
 	private IF_BoardService boardService;
-	
+	//첨부파일 업로드 경로를 변수값으로 가져옴 servlet-context
+	@Resource(name="uploadPath")
+	private String uploadPath;
 	/**
 	 * 관리자 홈
 	 * @param locale
@@ -142,9 +152,37 @@ public class AdminController {
 	@RequestMapping(value = "/admin/board/view", method = RequestMethod.GET)
 	public String boardView(@RequestParam("bno") Integer bno, Locale locale, Model model) throws Exception {
 		BoardVO boardVO = boardService.viewBoard(bno);
+		//첨부파일명 출력
+		List<String> files = boardService.selectAttach(bno);
+		
+		String[] fileNames= {};
+		for(String fileName : files) {
+			fileNames = new String[] {fileName};
+		}
+		
+		//String[] fileNames = new String[] {files}; 
+		boardVO.setFiles(fileNames);
+		
 		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_view";
 	}
+	/**
+	 * 게시물관리 상세보기 첨부파일 다운로드 입니다.
+	 * @param locale
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	@ResponseBody
+	public FileSystemResource fileDownload(@RequestParam("fileName") String fileName, HttpServletResponse response) {
+		File file = new File(uploadPath + "/" + fileName);
+		response.setContentType("application/download; utf-8");
+		response.setHeader("content-disposition", "attachment; fileName=" + fileName);
+		return new FileSystemResource(file);
+	}
+	
+	
 	/**
 	 * 게시물관리 등록 입니다.
 	 * @param locale
@@ -157,8 +195,24 @@ public class AdminController {
 		return "admin/board/board_write";
 	}
 	@RequestMapping(value = "/admin/board/write", method = RequestMethod.POST)
-	public String boardWrite(BoardVO boardVO, Locale locale, Model model, RedirectAttributes rdat) throws Exception {
-		boardService.insertBoard(boardVO);
+	public String boardWrite(MultipartFile file, BoardVO boardVO, Locale locale, Model model, RedirectAttributes rdat) throws Exception {
+		if(file.getOriginalFilename()=="") {
+			boardService.insertBoard(boardVO);
+		}else {
+			String originalName = file.getOriginalFilename();//jsp에서 전송받은  파일 이름을 가져옴
+			UUID uid = UUID.randomUUID();//랜덤문자 구하기
+			String saveName = uid.toString()+"."+originalName.split("\\.")[1];//한글 파일명 처리 때문에
+			String[] files = new String[] {saveName};
+			boardVO.setFiles(files);
+			boardService.insertBoard(boardVO);
+			
+			//이 위는 DB에 첨부파일명을 저장하기 까지
+			//이 아래 부터 실제 파일을 폴더에 저장하기 시작
+			byte[] fileData = file.getBytes();
+			File target = new File(uploadPath, saveName);
+			FileCopyUtils.copy(fileData, target);
+		}
+		
 		rdat.addFlashAttribute("msg", "writeSuccess");
 		return "redirect:/admin/board/list";
 	}
@@ -191,6 +245,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin/board/delete", method = RequestMethod.POST)
 	public String boardDelete(@RequestParam("bno") Integer bno, Locale locale, RedirectAttributes rdat) throws Exception {
 		boardService.deleteBoard(bno);
+		
 		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/admin/board/list";
 	}

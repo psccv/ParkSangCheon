@@ -47,7 +47,7 @@
 					<div class="form-group">
 						<label>내용</label>
 						<textarea name="content" type="text" class="form-control" placeholder="내용..."
-							style="height: 200px">${boardVO.content}</textarea>
+							style="height:200px;">${boardVO.content}</textarea>
 					</div>
 					<!-- textarea -->
 					<div class="form-group">
@@ -60,19 +60,22 @@
 						<textarea class="form-control" rows="3" placeholder="" disabled=""></textarea>
 					</div>
 					<div class="form-group">
-						<label>아래 기존 파일 업로드창 사용 가능</label> <br>
-						<button name="file" type="submit" class="btn btn-default"
-							style="position: relative; background-color: #F57878">파일선택</button>
-						<label>선택된 파일이 없음</label>
+						<div class="custom-file">
+							<tr>
+								<td>아래 기존 파일 업로드 창 사용가능</td>
+								<br>
+								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" /></td>
+							</tr>
+						</div>
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="bno" value="${boardVO.bno}">
 						<button type="submit" class="btn btn-default"
-							style="position: relative; background-color:#FFC314">
+							style="position:relative;background-color:#FFC314;">
 							<strong>등록</strong>
 						</button>
 						<a href="/admin/board/list" class="btn btn-default"
-							style="position: relative; background-color: #3CA0FF">
+							style="position:relative;background-color:#3CA0FF;">
 							<strong>돌아가기</strong>
 						</a>
 					</div>

@@ -69,7 +69,7 @@
 						<dr>
 						<div class="form-group">
 						<label>상태</label> 
-							<select name="enabled" class="form-control" style="width: 90px">
+							<select name="enabled" class="form-control" style="width:90px;">
 								<option value="0" 
 								<c:out value="${memberVO.enabled eq 'false'?'selected':''}"></c:out>
 								>False</option>
@@ -81,7 +81,7 @@
 						<dr>
 						<div class="form-group">
 							<label>등급</label> <select name="levels" class="form-control"
-								style="width: 140px">
+								style="width:140px;">
 								<option value="ROLE_USER" 
 								<c:out value="${memberVO.levels eq 'ROLE_USER'?'selected':''}"></c:out>
 								>ROLE_USER</option>
@@ -92,11 +92,11 @@
 						</div>
 						<dr>
 						<button type="submit" class="btn btn-default" 
-							style="background-color: yellow">
+							style="background-color:yellow;">
 							<strong>등록</strong>
 						</button>
 						<a href="/admin/member/list" class="btn btn-default"
-							style="background-color: skyblue">
+							style="background-color:skyblue;">
 							<strong>돌아가기</strong>
 						</a>
 				</form>

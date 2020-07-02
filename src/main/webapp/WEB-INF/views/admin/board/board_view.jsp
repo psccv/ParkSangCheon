@@ -44,22 +44,26 @@
 					<div class="form-group">
 						<label>내용</label><br>
 						<textarea name="content" type="text" class="form-control" placeholder="내용..."
-							style="height: 200px" disabled="">${boardVO.content}</textarea>
+							style="height:200px;" disabled="">${boardVO.content}</textarea>
 					</div>
 					<div class="form-group">
 						<label>작성자</label><br> ${boardVO.writer}
 					</div>
 					<div class="form-group">
+						<label>첨부파일 다운로드</label><br>
+						<a href="/download?fileName=${boardVO.files[0]}">${boardVO.files[0]}</a>
+					</div>
+					<div class="form-group">
 						<a href="/admin/board/update?bno=${boardVO.bno}" class="btn btn-default"
-							style="position: relative; background-color:#FFD228">
+							style="position:relative;background-color:#FFD228;">
 							<strong>수정</strong>
 						</a>
 						<button type="submit"  class="btn btn-default"
-							style="position: relative; background-color:#EB3232">
+							style="position:relative;background-color:#EB3232;">
 							<strong>삭제</strong>
 						</button>
 						<a href="/admin/board/list" class="btn btn-default"
-							style="position: relative; background-color:#0A6ECD">
+							style="position:relative;background-color:#0A6ECD;">
 							<strong>돌아가기</strong>
 						</a>
 					</div>
@@ -73,7 +77,7 @@
 	<!-- /.replay -->
 	<div class="content">
 		<div class="card card-warning">
-			<div class="card-header" style="background-color: #94EB3E">
+			<div class="card-header" style="background-color:#94EB3E;">
 				<h3 class="card-title">
 					<strong>댓글작성</strong>
 				</h3>
@@ -93,7 +97,7 @@
 					</div>
 					<div class="form-group">
 						<a href="#" class="btn btn-default"
-							style="position: relative; background-color: #50B4F5">
+							style="position:relative;background-color:#50B4F5;">
 							<strong>작성</strong>
 						</a>
 					</div>
@@ -101,12 +105,12 @@
 
 				<div id="replayview" class="form-group">
 					<a href="#" class="btn btn-default"
-						style="position: relative; background-color: #FC3F00; width: 114px">
+						style="position:relative;background-color:#FC3F00;width:114px;">
 						<strong>댓글목록</strong>
 					</a>
 
 					<div class="card-body table-responsive p-0"
-						style="text-align: center">
+						style="text-align:center";>
 						<table class="table table-hover text-nowrap">
 							<thead>
 								<tr>
@@ -144,7 +148,7 @@
 							</tbody>
 						</table>
 					</div>
-					<ul class="pagination" style="position: relative; left: 40%;">
+					<ul class="pagination" style="position:relative;left:40%;">
 						<li class="page-item"><a href="#" class="page-link">«</a></li>
 						<li class="page-item"><a href="#" class="page-link">1</a></li>
 						<li class="page-item"><a href="#" class="page-link">2</a></li>

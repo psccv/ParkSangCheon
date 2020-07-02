@@ -68,13 +68,13 @@
 					</div>
 					<dr> 
 						<a href="/admin/member/update?user_id=${memberVO.user_id}" class="btn btn-default"
-							style="background-color: yellow; position: relative; left: 78%">
+							style="background-color:yellow;position:relative;left:78%;">
 							<strong>수정</strong>
 						</a> <button type="submit" class="btn btn-default"
-							style="background-color: red; position: relative; left: 78%">
+							style="background-color:red;position:relative;left:78%;">
 							<strong>삭제</strong>
 						</button> <a href="/admin/member/list" class="btn btn-default"
-							style="background-color: skyblue; position: relative; left: 78%">
+							style="background-color:skyblue;position:relative;left:78%;">
 							<strong>돌아가기</strong>
 						</a>
 						<input name="user_id" type="hidden" value="${memberVO.user_id}">

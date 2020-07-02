@@ -64,7 +64,7 @@
 						<dr>
 						<div class="form-group">
 						<label>상태</label> 
-							<select name="enabled" class="form-control" style="width: 90px">
+							<select name="enabled" class="form-control" style="width:90px;">
 								<option value="1" selected="">True</option>
 								<option value="0">False</option>
 							</select>
@@ -72,18 +72,18 @@
 						<dr>
 						<div class="form-group">
 							<label>등급</label> <select name="levels" class="form-control"
-								style="width: 140px">
+								style="width:140px;">
 								<option value="ROLE_USER">ROLE_USER</option>
 								<option value="ROLE_ADMIN">ROLE_ADMIN</option>
 							</select>
 						</div>
 						<dr>
 						<button type="submit" class="btn btn-default" 
-							style="background-color: yellow">
+							style="background-color:yellow;">
 							<strong>등록</strong>
 						</button>
 						<a href="/admin/member/list" class="btn btn-default"
-							style="background-color: skyblue">
+							style="background-color:skyblue;">
 							<strong>돌아가기</strong>
 						</a>
 				</form>
