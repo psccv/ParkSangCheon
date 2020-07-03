@@ -37,7 +37,7 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<form role="form" action="/admin/board/update" method="POST" >
+				<form role="form" action="/admin/board/update" method="POST" enctype="multipart/form-data">
 					<!-- text input -->
 					<div class="form-group">
 						<label>제목</label> 
@@ -64,7 +64,7 @@
 							<tr>
 								<td>아래 기존 파일 업로드 창 사용가능</td>
 								<br>
-								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" /></td>
+								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" />${boardVO.files[0]}</td>
 							</tr>
 						</div>
 					</div>

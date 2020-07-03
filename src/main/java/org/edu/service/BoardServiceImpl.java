@@ -34,10 +34,22 @@ public class BoardServiceImpl implements IF_BoardService {
 		return boardDAO.selectBoard();
 	}
 
+	@Transactional
 	@Override
 	public void updateBoard(BoardVO boardVO) throws Exception {
 		boardDAO.updateBoard(boardVO);
+		//첨부파일용 서비스 추가
+		String[] files = boardVO.getFiles();
+		Integer bno = boardVO.getBno();//tbl_attach 테이블 수정용 변수
+		if(files==null) {
+			return;
+		}
+		boardDAO.deleteAttach(bno);//기존 첨부파일 삭제
+		for(String fileName : files) {
+			boardDAO.updateAttach(fileName, bno);
+		}
 	}
+	
 	@Transactional
 	@Override
 	public void deleteBoard(Integer bno) throws Exception {

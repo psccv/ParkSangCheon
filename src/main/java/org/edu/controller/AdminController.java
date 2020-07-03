@@ -1,6 +1,7 @@
 package org.edu.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemberService;
@@ -29,7 +31,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminController {
-	
 	@Inject
 	private IF_MemberService memberService;
 	@Inject
@@ -47,6 +48,7 @@ public class AdminController {
 	public String home(Locale locale, Model model) {
 		return "admin/home";
 	}
+	
 	/**
 	 * 회원관리 목록 입니다.
 	 * @param locale
@@ -63,6 +65,7 @@ public class AdminController {
 		model.addAttribute("memberList", list);
 		return "admin/member/member_list";
 	}
+	
 	/**
 	 * 회원관리 상세보기 입니다.
 	 * @param locale
@@ -76,6 +79,7 @@ public class AdminController {
 		model.addAttribute("memberVO", memberVO);
 		return "admin/member/member_view";
 	}
+	
 	/**
 	 * 회원관리 등록 입니다.
 	 * @param locale
@@ -93,6 +97,7 @@ public class AdminController {
 		rdat.addFlashAttribute("msg", "writeSuccess");
 		return "redirect:/admin/member/list";
 	}
+	
 	/**
 	 * 회원관리 수정 입니다.
 	 * @param locale
@@ -112,6 +117,7 @@ public class AdminController {
 		rdat.addFlashAttribute("msg", "updateSuccess");
 		return "redirect:/admin/member/view?user_id=" + memberVO.getUser_id();
 	}
+	
 	/**
 	 * 회원관리 삭제 입니다.
 	 * @param locale
@@ -144,6 +150,7 @@ public class AdminController {
 		model.addAttribute("boardList", list);
 		return "admin/board/board_list";
 	}
+	
 	/**
 	 * 게시물관리 상세보기 입니다.
 	 * @param locale
@@ -161,12 +168,11 @@ public class AdminController {
 		for(String fileName : files) {
 			fileNames[cnt++] = fileName;
 		}
-		
 		boardVO.setFiles(fileNames);
-		
 		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_view";
 	}
+	
 	/**
 	 * 게시물관리 상세보기 첨부파일 다운로드 입니다.
 	 * @param locale
@@ -182,7 +188,6 @@ public class AdminController {
 		response.setHeader("Content-Disposition", "attachment; fileName=" + fileName);
 		return new FileSystemResource(file);
 	}
-	
 	
 	/**
 	 * 게시물관리 등록 입니다.
@@ -200,23 +205,14 @@ public class AdminController {
 		if(file.getOriginalFilename()=="") {
 			boardService.insertBoard(boardVO);
 		}else {
-			String originalName = file.getOriginalFilename();//jsp에서 전송받은  파일 이름을 가져옴
-			UUID uid = UUID.randomUUID();//랜덤문자 구하기
-			String saveName = uid.toString()+"."+originalName.split("\\.")[1];//한글 파일명 처리 때문에
-			String[] files = new String[] {saveName};
+			String[] files = fileUpload(file);
 			boardVO.setFiles(files);
 			boardService.insertBoard(boardVO);
-			
-			//이 위는 DB에 첨부파일명을 저장하기 까지
-			//이 아래 부터 실제 파일을 폴더에 저장하기 시작
-			byte[] fileData = file.getBytes();
-			File target = new File(uploadPath, saveName);
-			FileCopyUtils.copy(fileData, target);
 		}
-		
 		rdat.addFlashAttribute("msg", "writeSuccess");
 		return "redirect:/admin/board/list";
 	}
+	
 	/**
 	 * 게시물관리 수정 입니다.
 	 * @param locale
@@ -231,11 +227,28 @@ public class AdminController {
 		return "admin/board/board_update";
 	}
 	@RequestMapping(value = "/admin/board/update", method = RequestMethod.POST)
-	public String boardUpdate(BoardVO boardVO, Locale locale, RedirectAttributes rdat) throws Exception {
-		boardService.updateBoard(boardVO);
+	public String boardUpdate(MultipartFile file, BoardVO boardVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		if(file.getOriginalFilename() == "") {
+			boardService.updateBoard(boardVO);
+		}else {
+			//이전 첨부파일 삭제
+			List<String> delFiles = boardService.selectAttach(boardVO.getBno());
+			for(String fileName : delFiles) {
+				//삭제 명령문
+				File target = new File(uploadPath, fileName);
+				if(target.exists()) {
+					target.delete();
+				}
+			}
+			//신규파일 업로드
+			String[] files = fileUpload(file);
+			boardVO.setFiles(files);
+			boardService.updateBoard(boardVO);
+		}
 		rdat.addFlashAttribute("msg", "updateSuccess");
 		return "redirect:/admin/board/view?bno=" + boardVO.getBno();
 	}
+	
 	/**
 	 * 게시물관리 삭제 입니다.
 	 * @param locale
@@ -258,4 +271,20 @@ public class AdminController {
 		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/admin/board/list";
 	}
+	
+	/**************************************************************
+	 *		파일 업로드 함수 공통
+	 * @throws IOException 
+	 */
+	public String[] fileUpload(MultipartFile file) throws IOException {
+		String originalName = file.getOriginalFilename();//jsp에서 전송받은  파일 이름을 가져옴
+		UUID uid = UUID.randomUUID();//랜덤문자 구하기
+		String saveName = uid.toString()+"."+originalName.split("\\.")[1];//한글 파일명 처리 때문에
+		String[] files = new String[] {saveName};//형변환
+		byte[] fileData = file.getBytes();
+		File target = new File(uploadPath, saveName);
+		FileCopyUtils.copy(fileData, target);
+		return files;
+	}
+	
 }
