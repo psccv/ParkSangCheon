@@ -1,4 +1,6 @@
 package kr.or.test;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -17,6 +19,24 @@ class SnowTire extends Tire{
 public class HelloWorld {
 
 	public static void main(String[] args) {
+		
+		
+		List<String> files = new ArrayList<>();
+		
+		files.add("샘플1.jpg");
+		files.add("샘플2.jpg");
+		files.add("샘플3.jpg");
+		
+		String[] fileNames = new String[files.size()];
+		
+		int cnt = 0;
+		
+		for(String fileName : files) {
+			fileNames[cnt++] = fileName;
+		}
+		System.out.println(fileNames[0]);
+		System.out.println(fileNames[1]);
+		System.out.println(fileNames[2]);
 		
 		SnowTire snowTire = new SnowTire();
 		Tire tire = snowTire;

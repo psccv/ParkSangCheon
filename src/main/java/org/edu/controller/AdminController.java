@@ -1,6 +1,7 @@
 package org.edu.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemberService;
 import org.edu.vo.BoardVO;
@@ -154,13 +156,12 @@ public class AdminController {
 		BoardVO boardVO = boardService.viewBoard(bno);
 		//첨부파일명 출력
 		List<String> files = boardService.selectAttach(bno);
-		
-		String[] fileNames= {};
+		String[] fileNames = new String[files.size()];
+		int cnt = 0;
 		for(String fileName : files) {
-			fileNames = new String[] {fileName};
+			fileNames[cnt++] = fileName;
 		}
 		
-		//String[] fileNames = new String[] {files}; 
 		boardVO.setFiles(fileNames);
 		
 		model.addAttribute("boardVO", boardVO);
@@ -173,12 +174,12 @@ public class AdminController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	@RequestMapping(value="/download", method=RequestMethod.GET)
 	@ResponseBody
 	public FileSystemResource fileDownload(@RequestParam("fileName") String fileName, HttpServletResponse response) {
 		File file = new File(uploadPath + "/" + fileName);
 		response.setContentType("application/download; utf-8");
-		response.setHeader("content-disposition", "attachment; fileName=" + fileName);
+		response.setHeader("Content-Disposition", "attachment; fileName=" + fileName);
 		return new FileSystemResource(file);
 	}
 	
@@ -244,8 +245,16 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/board/delete", method = RequestMethod.POST)
 	public String boardDelete(@RequestParam("bno") Integer bno, Locale locale, RedirectAttributes rdat) throws Exception {
+		//첨부파일 삭제
+		List<String> files = boardService.selectAttach(bno);
+		for(String fileName : files) {
+			//삭제 명령문
+			File target = new File(uploadPath, fileName);
+			if(target.exists()) {
+				target.delete();
+			}
+		}
 		boardService.deleteBoard(bno);
-		
 		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/admin/board/list";
 	}
