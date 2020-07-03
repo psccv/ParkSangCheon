@@ -81,7 +81,6 @@
             	style="background-color:#148CFF;">
             	<strong>글쓰기</strong>
             </a>
-         	
          	<ul class="pagination" style="position:relative;left:40%;">
 			    <li class="page-item"><a href="#" class="page-link">«</a></li>
 			    <li class="page-item"><a href="#" class="page-link">1</a></li>
@@ -89,6 +88,7 @@
 			    <li class="page-item"><a href="#" class="page-link">3</a></li>
 			    <li class="page-item"><a href="#" class="page-link">»</a></li>
 		     </ul>
+		     <br>
 		     </div>
     </div>
     <!-- /.content -->
