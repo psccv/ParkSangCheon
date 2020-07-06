@@ -54,7 +54,7 @@
 						<a href="/download?fileName=${boardVO.files[0]}">${boardVO.files[0]}</a>
 					</div>
 					<div class="form-group">
-						<a href="/admin/board/update?bno=${boardVO.bno}" class="btn btn-default"
+						<a href="/admin/board/update?bno=${boardVO.bno}&page=${pageVO.page}" class="btn btn-default"
 							style="position:relative;background-color:#FFD228;">
 							<strong>수정</strong>
 						</a>
@@ -62,7 +62,7 @@
 							style="position:relative;background-color:#EB3232;">
 							<strong>삭제</strong>
 						</button>
-						<a href="/admin/board/list" class="btn btn-default"
+						<a href="/admin/board/list?page=${pageVO.page}" class="btn btn-default"
 							style="position:relative;background-color:#0A6ECD;">
 							<strong>돌아가기</strong>
 						</a>

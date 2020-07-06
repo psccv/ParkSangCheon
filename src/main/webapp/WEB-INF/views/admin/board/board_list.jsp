@@ -60,13 +60,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <c:forEach items="${boardList}" var="boardVO" varStatus="status">
+                    <c:forEach items="${boardList}" var="boardList" varStatus="status">
 							<tr>
-								<td>${boardVO.bno}</td>
-								<td><a href="/admin/board/view?bno=${boardVO.bno}">${boardVO.title}</a></td>
-								<td>${boardVO.writer}</td>
-								<td>${boardVO.regdate}</td>
-								<td>${boardVO.view_count}</td>
+								<td>${boardList.bno}</td>
+								<td><a href="/admin/board/view?bno=${boardList.bno}&page=${pageVO.page}">${boardList.title}</a></td>
+								<td>${boardList.writer}</td>
+								<td>${boardList.regdate}</td>
+								<td>${boardList.view_count}</td>
 							</tr>
 						</c:forEach>
                   </tbody>
@@ -81,15 +81,26 @@
             	style="background-color:#148CFF;">
             	<strong>글쓰기</strong>
             </a>
-         	<ul class="pagination" style="position:relative;left:40%;">
-			    <li class="page-item"><a href="#" class="page-link">«</a></li>
-			    <li class="page-item"><a href="#" class="page-link">1</a></li>
-			    <li class="page-item"><a href="#" class="page-link">2</a></li>
-			    <li class="page-item"><a href="#" class="page-link">3</a></li>
-			    <li class="page-item"><a href="#" class="page-link">»</a></li>
-		     </ul>
+         	<ul class="pagination" style="position:relative;left:30%;">
+         		<c:if test="${pageVO.prev}">
+         			<li class="page-item">
+         				<a class="page-link" href="/admin/board/list?page=${pageVO.startPage-1}">이전</a>
+         			</li>
+         		</c:if>
+         		<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="idx">
+         			<li class='page-item <c:out value="${idx==pageVO.page?'active':''}"/>'>
+         				<a href="/admin/board/list?page=${idx}" class="page-link">${idx}
+         				</a>
+         			</li>
+         		</c:forEach>
+         		<c:if test="${pageVO.next}">
+         			<li class="page-item">
+         				<a class="page-link" href="/admin/board/list?page=${pageVO.endPage+1}">다음</a>
+         			</li>
+         		</c:if>
+			 </ul>
 		     <br>
-		     </div>
+		</div>
     </div>
     <!-- /.content -->
   </div>

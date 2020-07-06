@@ -19,9 +19,21 @@ class SnowTire extends Tire{
 public class HelloWorld {
 
 	public static void main(String[] args) {
+		int startBno = (1 - 1) * 10;
+		System.out.println("쿼리변수 (1page - 1) * perPageNum = " + startBno);
+		startBno = (2 - 1) * 10;
+		System.out.println("쿼리변수 (2page - 1) * perPageNum = " + startBno);
+		startBno = (3 - 1) * 10;
+		System.out.println("쿼리변수 (3page - 1) * perPageNum = " + startBno);
+		//천장함수 사용법
+		int endPage = (int)Math.ceil((1/10.0)*10);
+		System.out.println("Math.ceil((1page/10.0)*10) = " + endPage);
+		endPage = (int)Math.ceil((2/10.0)*10);
+		System.out.println("Math.ceil((2page/10.0)*10) = " + endPage);
+		endPage = (int)Math.ceil((3/10.0)*10);
+		System.out.println("Math.ceil((3page/10.0)*10) = " + endPage);
 		
-		
-		List<String> files = new ArrayList<>();
+		/*List<String> files = new ArrayList<>();
 		
 		files.add("샘플1.jpg");
 		files.add("샘플2.jpg");
@@ -36,7 +48,7 @@ public class HelloWorld {
 		}
 		System.out.println(fileNames[0]);
 		System.out.println(fileNames[1]);
-		System.out.println(fileNames[2]);
+		System.out.println(fileNames[2]);*/
 		
 		SnowTire snowTire = new SnowTire();
 		Tire tire = snowTire;
