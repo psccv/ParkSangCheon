@@ -2,7 +2,6 @@ package org.edu.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -10,15 +9,13 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.io.FileDeleteStrategy;
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemberService;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
-import org.springframework.cglib.reflect.MethodDelegate;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -145,14 +142,14 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/board/list", method = RequestMethod.GET)
 	public String boardList(@ModelAttribute("pageVO") PageVO pageVO, Locale locale, Model model) throws Exception {
-		if(pageVO.getPage() == null){ 
-			pageVO.setPage(1); // 초기페이지 기본값 첫 페이지
+		//PageVO pageVO = new PageVO();//매개변수로 받기전 테스트용
+		if(pageVO.getPage() == null) {
+			pageVO.setPage(1);//초기 page변수값 지정
 		}
-		pageVO.setPerPageNum(10); // 페이지당 보여줄 게시물 수
-		pageVO.setTotalCount(boardService.countBno());
+		pageVO.setPerPageNum(10);//1페이지당 보여줄 게시물 수 강제지정
+		pageVO.setTotalCount(boardService.countBno(pageVO));//강제로 입력한 값을 쿼리로 대체OK.
 		List<BoardVO> list = boardService.selectBoard(pageVO);
-		//model매개변수에 boardService에서 Select한 list값을 boardList란
-		//이름으로 사용할 수 있도록 jsp화면으로 보낸다.
+		//모델클래스로 jsp화면으로 boardService에서 셀렉트한 list값을 boardList변수명으로 보낸다.
 		//model { list -> boardList -> jsp }
 		model.addAttribute("boardList", list);
 		model.addAttribute("pageVO", pageVO);
@@ -167,17 +164,18 @@ public class AdminController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/admin/board/view", method = RequestMethod.GET)
-	public String boardView(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno, Locale locale, Model model) throws Exception {
-		BoardVO boardList = boardService.viewBoard(bno);
-		//첨부파일명 출력
+	public String boardView(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno,Locale locale, Model model) throws Exception {
+		BoardVO boardVO = boardService.viewBoard(bno);
+		//여기서 부터 첨부파일명 때문에 추가
 		List<String> files = boardService.selectAttach(bno);
-		String[] fileNames = new String[files.size()];
+		String[] filenames = new String[files.size()];
 		int cnt = 0;
 		for(String fileName : files) {
-			fileNames[cnt++] = fileName;
+			filenames[cnt++] = fileName;
 		}
-		boardList.setFiles(fileNames);
-		model.addAttribute("boardList", boardList);
+		boardVO.setFiles(filenames);//String[]
+		//여기까지 첨부파일때문에 추가
+		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("pageVO", pageVO);
 		return "admin/board/board_view";
 	}
@@ -210,15 +208,16 @@ public class AdminController {
 		return "admin/board/board_write";
 	}
 	@RequestMapping(value = "/admin/board/write", method = RequestMethod.POST)
-	public String boardWrite(MultipartFile file, BoardVO boardList, Locale locale, Model model, RedirectAttributes rdat) throws Exception {
-		if(file.getOriginalFilename()=="") {
-			boardService.insertBoard(boardList);
+	public String boardWrite(MultipartFile file,@Valid BoardVO boardVO, Locale locale, Model model, RedirectAttributes rdat) throws Exception {
+		if(file.getOriginalFilename() == "") {
+			//첨부파일 없이 저장
+			boardService.insertBoard(boardVO);
 		}else {
 			String[] files = fileUpload(file);
-			boardList.setFiles(files);
-			boardService.insertBoard(boardList);
+			boardVO.setFiles(files);
+			boardService.insertBoard(boardVO);			
 		}
-		rdat.addFlashAttribute("msg", "writeSuccess");
+		rdat.addFlashAttribute("msg", "입력");
 		return "redirect:/admin/board/list";
 	}
 	
@@ -231,32 +230,32 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/board/update", method = RequestMethod.GET)
 	public String boardUpdate(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno, Locale locale, Model model) throws Exception {
-		BoardVO boardList = boardService.viewBoard(bno);
-		model.addAttribute("boardList", boardList);
+		BoardVO boardVO = boardService.viewBoard(bno);
+		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("pageVO", pageVO);
 		return "admin/board/board_update";
 	}
 	@RequestMapping(value = "/admin/board/update", method = RequestMethod.POST)
-	public String boardUpdate(@ModelAttribute("pageVO") PageVO pageVO, MultipartFile file, BoardVO boardList, Locale locale, RedirectAttributes rdat) throws Exception {
-		if(file.getOriginalFilename() == "") {
-			boardService.updateBoard(boardList);
-		}else {
-			//이전 첨부파일 삭제
-			List<String> delFiles = boardService.selectAttach(boardList.getBno());
+	public String boardUpdate(@ModelAttribute("pageVO") PageVO pageVO, MultipartFile file,@Valid BoardVO boardVO,Locale locale, RedirectAttributes rdat) throws Exception {
+		if(file.getOriginalFilename() == "") {//조건:첨부파일 전송 값이 없다면
+			boardService.updateBoard(boardVO);
+		} else {
+			//기존등록된 첨부파일 삭제처리(아래)
+			List<String> delFiles = boardService.selectAttach(boardVO.getBno());
 			for(String fileName : delFiles) {
-				//삭제 명령문
+				//실제파일 삭제
 				File target = new File(uploadPath, fileName);
-				if(target.exists()) {
-					target.delete();
-				}
-			}
-			//신규파일 업로드
-			String[] files = fileUpload(file);
-			boardList.setFiles(files);
-			boardService.updateBoard(boardList);
-		}
-		rdat.addFlashAttribute("msg", "updateSuccess");
-		return "redirect:/admin/board/view?bno=" + boardList.getBno() + "&page=" + pageVO.getPage();
+				if(target.exists()) { //조건:해당경로에 파일명이 존재하면
+					target.delete();  //파일삭제
+				}//End if
+			}//End for
+			//아래 신규파일 업로드
+			String[] files = fileUpload(file);//실제파일업로드후 파일명 리턴
+			boardVO.setFiles(files);//데이터베이스 <-> VO(get,set) <-> DAO클래스
+			boardService.updateBoard(boardVO);
+		}//End if
+		rdat.addFlashAttribute("msg", "수정");
+		return "redirect:/admin/board/view?bno=" + boardVO.getBno() + "&page=" + pageVO.getPage();
 	}
 	
 	/**
@@ -268,17 +267,17 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/board/delete", method = RequestMethod.POST)
 	public String boardDelete(@RequestParam("bno") Integer bno, Locale locale, RedirectAttributes rdat) throws Exception {
-		//첨부파일 삭제
 		List<String> files = boardService.selectAttach(bno);
+		boardService.deleteBoard(bno);
+		//첨부파일 삭제
 		for(String fileName : files) {
-			//삭제 명령문
+			//삭제 명령문 추가
 			File target = new File(uploadPath, fileName);
 			if(target.exists()) {
 				target.delete();
 			}
 		}
-		boardService.deleteBoard(bno);
-		rdat.addFlashAttribute("msg", "deleteSuccess");
+		rdat.addFlashAttribute("msg", "삭제");
 		return "redirect:/admin/board/list";
 	}
 	

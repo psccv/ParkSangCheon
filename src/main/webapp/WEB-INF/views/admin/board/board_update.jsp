@@ -70,6 +70,7 @@
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="bno" value="${boardVO.bno}">
+						<input type="hidden" name="page" value="${pageVO.page}">
 						<button type="submit" class="btn btn-default"
 							style="position:relative;background-color:#FFC314;">
 							<strong>등록</strong>

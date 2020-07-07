@@ -17,12 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.edu.dao.IF_MemberDAO">
 	
 	<insert id="insertMember">
-		insert into tbl_member(user_id, user_pw, user_name, email, point, enabled, levels, reg_date)
-		values(#{user_id}, #{user_pw}, #{user_name}, #{email},#{point},#{enabled},#{levels}, now())	
+		INSERT INTO tbl_member(user_id, user_pw, user_name, email, point, enabled, levels, reg_date)
+		VALUES(#{user_id}, #{user_pw}, #{user_name}, #{email},#{point},#{enabled},#{levels}, now())	
 	</insert>
 	
 	<select id="selectMember" resultType="org.edu.vo.MemberVO">
-		select * from tbl_member order by reg_date DESC<!-- ASC 오름차순 DESC 내림차순 -->
+		SELECT * FROM tbl_member ORDER BY reg_date DESC<!-- ASC 오름차순 DESC 내림차순 -->
 	</select>
 	
 	<update id="updateMember">
@@ -38,11 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<delete id="deleteMember">
-		delete from tbl_member where user_id = #{user_id}
+		DELETE FROM tbl_member WHERE user_id = #{user_id}
 	</delete>
 	
 	<select id="viewMember" resultType="org.edu.vo.MemberVO">
-		select * from tbl_member where user_id = #{user_id}
+		SELECT * FROM tbl_member WHERE user_id = #{user_id}
 	</select>
 	
 </mapper>

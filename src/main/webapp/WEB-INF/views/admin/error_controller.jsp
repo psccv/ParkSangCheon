@@ -28,6 +28,7 @@
 	<!-- /.content-header -->
 	<!-- Main Content -->
 	<div class="content">
+	<a href='<c:out value="${prevPage}"/>'>이전 페이지로 가기</a>
 		<p>에러상세내역</p>
 		<ul>
 			<c:forEach items="${exception.getStackTrace()}" var="stack">

@@ -3,8 +3,11 @@ package org.edu.vo;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class BoardVO {
 	private Integer bno;
+	@NotBlank(message = "게시물 제목은 필수 입력 사항 입니다!")
 	private String title;
 	private String content;
 	private String writer;

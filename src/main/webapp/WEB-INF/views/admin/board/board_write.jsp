@@ -45,7 +45,7 @@
 					</div>
 					<div class="form-group">
 						<label>내용</label>
-						<textarea name="content" type="text" class="form-control" placeholder="내용..."
+						<textarea name="content" class="form-control" placeholder="내용..."
 							style="height:200px;"></textarea>
 					</div>
 					<!-- textarea -->

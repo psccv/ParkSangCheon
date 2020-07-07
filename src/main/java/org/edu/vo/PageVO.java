@@ -9,7 +9,9 @@ public class PageVO {
 	private int totalCount;
 	private boolean prev;
 	private boolean next;
-	
+	// 검색용 변수 2개 추가
+	private String searchType;
+	private String searchKeyword;
 	
 	private void calcPage() {
 		// page변수는 현재 jsp에서 클릭한 페이지번호
@@ -82,4 +84,21 @@ public class PageVO {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+	
 }
