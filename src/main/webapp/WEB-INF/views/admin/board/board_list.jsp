@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../include/header.jsp"%>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -73,12 +74,14 @@
 					<tbody>
 						<c:forEach items="${boardList}" var="boardVO" varStatus="status">
 							<tr>
-								<td><a
-									href="/admin/board/view?bno=${boardVO.bno}&page=${pageVO.page}">${boardVO.bno}</a></td>
-								<td><a
-									href="/admin/board/view?bno=${boardVO.bno}&page=${pageVO.page}">${boardVO.title}</a></td>
+								<td>
+								<a href="/admin/board/view?bno=${boardVO.bno}&page=${pageVO.page}">${boardVO.bno}</a></td>
+								<td>
+								<a href="/admin/board/view?bno=${boardVO.bno}&page=${pageVO.page}">${boardVO.title}</a></td>
 								<td>${boardVO.writer}</td>
-								<td>${boardVO.regdate}</td>
+								<td>
+								<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${boardVO.regdate}"/>
+								</td>
 								<td>${boardVO.view_count}</td>
 							</tr>
 						</c:forEach>

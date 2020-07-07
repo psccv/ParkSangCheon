@@ -15,7 +15,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="org.edu.dao.IF_BoardDAO">
-	
+	<!-- 공통사용 검색 쿼리 -->
+ 	<sql id="sqlWhere">
+ 		<if test="searchType != null">
+			AND(
+			title LIKE CONCAT('%',#{searchKeyword},'%')
+			OR
+			content LIKE CONCAT('%',#{searchKeyword},'%')
+			OR
+			writer LIKE CONCAT('%',#{searchKeyword},'%')
+			OR
+			bno LIKE CONCAT('%',#{searchKeyword},'%')
+			)
+		</if>
+ 	</sql>
 	<insert id="insertBoard">
 		INSERT INTO tbl_board(title, content, writer, regdate, view_count, reply_count)
 		VALUES(#{title}, #{content}, #{writer}, now(),#{view_count},#{reply_count})	
@@ -24,17 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectBoard" resultType="org.edu.vo.BoardVO">		
 		SELECT * FROM tbl_board 
 		WHERE 1 = 1
-		<if test="searchType != null">
-			AND(
-			title LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			content LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			writer LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			bno LIKE CONCAT('%',#{searchKeyword},'%')
-			)
-		</if>
+		<include refid="sqlWhere"/>
 		ORDER BY bno DESC<!-- ASC 오름차순 DESC 내림차순 -->
 		LIMIT #{startBno}, #{perPageNum}
 	</select>
@@ -42,17 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countBno" resultType="int">
 		SELECT COUNT(*) FROM tbl_board
 		WHERE 1 = 1
-		<if test="searchType != null">
-			AND(
-			title LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			content LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			writer LIKE CONCAT('%',#{searchKeyword},'%')
-			OR
-			bno LIKE CONCAT('%',#{searchKeyword},'%')
-			)
-		</if>
+		<include refid="sqlWhere"/>
 	</select>
 	
 	<update id="updateBoard">

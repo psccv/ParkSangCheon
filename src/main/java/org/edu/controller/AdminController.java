@@ -217,7 +217,7 @@ public class AdminController {
 			boardVO.setFiles(files);
 			boardService.insertBoard(boardVO);			
 		}
-		rdat.addFlashAttribute("msg", "입력");
+		rdat.addFlashAttribute("msg", "writeSuccess");
 		return "redirect:/admin/board/list";
 	}
 	
@@ -254,7 +254,7 @@ public class AdminController {
 			boardVO.setFiles(files);//데이터베이스 <-> VO(get,set) <-> DAO클래스
 			boardService.updateBoard(boardVO);
 		}//End if
-		rdat.addFlashAttribute("msg", "수정");
+		rdat.addFlashAttribute("msg", "updateSuccess");
 		return "redirect:/admin/board/view?bno=" + boardVO.getBno() + "&page=" + pageVO.getPage();
 	}
 	
@@ -277,7 +277,7 @@ public class AdminController {
 				target.delete();
 			}
 		}
-		rdat.addFlashAttribute("msg", "삭제");
+		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/admin/board/list";
 	}
 	
