@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.edu.service.IF_MemberService;
 import org.edu.vo.MemberVO;
+import org.edu.vo.PageVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,9 +35,15 @@ public class DataSourceTest {
 	@Test
 	public void testSelectMember() throws Exception{
 		System.out.println("회원리스트 입니다.");
-		memberService.selectMember();
-		/*List<MemberVO> list = memberService.selectMember();
-		for(MemberVO vo:list) {
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setPerPageNum(10);
+		memberService.selectMember(pageVO);
+		List<MemberVO> list = memberService.selectMember(pageVO);
+		System.out.println("--------------------------------------------");
+		System.out.println(list);
+		System.out.println("--------------------------------------------");
+		/*for(MemberVO vo:list) {
 			System.out.println("사용자 아이디 : " + vo.getUser_id() +
 					"\n사용자 패스워드 : " + vo.getUser_pw()+
 					"\n사용자 이름 : " + vo.getUser_name()+

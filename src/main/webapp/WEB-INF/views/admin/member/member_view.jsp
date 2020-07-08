@@ -67,13 +67,13 @@
 						<label>등급</label><br> ${memberVO.levels}
 					</div>
 					<dr> 
-						<a href="/admin/member/update?user_id=${memberVO.user_id}" class="btn btn-default"
+						<a href="/admin/member/update?user_id=${memberVO.user_id}&page=${pageVO.page}" class="btn btn-default"
 							style="background-color:yellow;position:relative;left:78%;">
 							<strong>수정</strong>
 						</a> <button type="submit" class="btn btn-default"
 							style="background-color:red;position:relative;left:78%;">
 							<strong>삭제</strong>
-						</button> <a href="/admin/member/list" class="btn btn-default"
+						</button> <a href="/admin/member/list?page=${pageVO.page}" class="btn btn-default"
 							style="background-color:skyblue;position:relative;left:78%;">
 							<strong>돌아가기</strong>
 						</a>

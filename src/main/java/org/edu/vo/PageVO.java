@@ -1,7 +1,7 @@
 package org.edu.vo;
 
 public class PageVO {
-	private int startBno;
+	private int startNo;
 	private int perPageNum;
 	private Integer page; // jsp단에서 null로 값이 올때 에러가 발생하지 않도록 Integer 사용
 	private int startPage;
@@ -33,13 +33,13 @@ public class PageVO {
 		// 클릭한 page번호로 계산된 게시물수가 실제 게시물 개수 보다 작으면 다음 페이지가 있음. true
 	}
 	
-	public int getStartBno() {
+	public int getStartNo() {
 		//DB쿼리에서 사용... 시작 데이터 번호 = (jsp 클리한 페이지 수 -1) * 페이지당 보여지는 개수
-		startBno = (this.page - 1) * perPageNum;
-		return startBno;
+		startNo = (this.page - 1) * perPageNum;
+		return startNo;
 	}
-	public void setStartBno(int startBno) {
-		this.startBno = startBno;
+	public void setStartNo(int startNo) {
+		this.startNo = startNo;
 	}
 	public int getPerPageNum() {
 		return perPageNum;

@@ -15,14 +15,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="org.edu.dao.IF_MemberDAO">
-	
+	<!-- 공통사용 검색 쿼리 -->
+ 	<sql id="sqlWhere">
+ 		<if test="searchType != null">
+			AND(
+			user_id LIKE CONCAT('%',#{searchKeyword},'%')
+			OR
+			user_name LIKE CONCAT('%',#{searchKeyword},'%')
+			OR
+			email LIKE CONCAT('%',#{searchKeyword},'%')
+			)
+		</if>
+ 	</sql>
+ 	
 	<insert id="insertMember">
 		INSERT INTO tbl_member(user_id, user_pw, user_name, email, point, enabled, levels, reg_date)
 		VALUES(#{user_id}, #{user_pw}, #{user_name}, #{email},#{point},#{enabled},#{levels}, now())	
 	</insert>
 	
 	<select id="selectMember" resultType="org.edu.vo.MemberVO">
-		SELECT * FROM tbl_member ORDER BY reg_date DESC<!-- ASC 오름차순 DESC 내림차순 -->
+		SELECT * FROM tbl_member
+		WHERE 1 = 1
+		<include refid="sqlWhere"/>
+		ORDER BY reg_date DESC <!-- ASC 오름차순 DESC 내림차순 -->
+		LIMIT #{startNo}, #{perPageNum}
+	</select>
+	
+	<select id="countUserId" resultType="int">
+		SELECT COUNT(*) FROM tbl_member
+		WHERE 1 = 1
+		<include refid="sqlWhere"/>
 	</select>
 	
 	<update id="updateMember">

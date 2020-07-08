@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../include/header.jsp"%>
 
 <!-- Content Wrapper. Contains page content -->
@@ -37,20 +38,22 @@
 				</h3>
 				<br>
 				<div class="card-tools">
-					<div class="input-group"
-						style="width:500px;positon:relative;right:98%;padding:5px;">
-						<select class="form-control" style="text-align:center;">
-							<option selected="">준회원</option>
-							<option>정회원</option>
-							<option>우수회원</option>
-						</select> <input type="text" name="table_search"
-							class="form-control float-right" placeholder="Search">
-
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-default">검색</button>
-							<button type="submit" class="btn btn-default">새사용자등록</button>
+					<form action="/admin/member/list">
+						<div class="input-group"
+							style="width: 500px; positon: relative; padding: 5px; right: 98%;">
+							<select class="form-control" name="searchType"
+								style="text-align-last: center; direction:inherit;">
+								<option selected>전체</option>
+								<option>아이디</option>
+								<option>이름</option>
+								<option>이메일</option>
+							</select><input type="text" name="searchKeyword"
+								class="form-control float-right" placeholder="Search">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-default">검색</button>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 			<!-- /.card-header -->
@@ -62,6 +65,7 @@
 							<th>아이디</th>
 							<th>이름</th>
 							<th>이메일</th>
+							<th>포인트</th>
 							<th>상태</th>
 							<th>등록일</th>
 							<th>등급</th>
@@ -70,11 +74,12 @@
 					<tbody>
 						<c:forEach items="${memberList}" var="memberVO" varStatus="status">
 							<tr>
-								<td>${memberVO.user_id}</td>
-								<td><a href="/admin/member/view?user_id=${memberVO.user_id}">${memberVO.user_name}</a></td>
+								<td><a href="/admin/member/view?user_id=${memberVO.user_id}&page=${pageVO.page}">${memberVO.user_id}</a></td>
+								<td><a href="/admin/member/view?user_id=${memberVO.user_id}&page=${pageVO.page}">${memberVO.user_name}</a></td>
 								<td>${memberVO.email}</td>
+								<td>${memberVO.point}</td>
 								<td>${memberVO.enabled}</td>
-								<td>${memberVO.reg_date}</td>
+								<td><fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" value="${memberVO.reg_date}"/></td>
 								<td>${memberVO.levels}</td>
 							</tr>
 						</c:forEach>
@@ -90,15 +95,27 @@
 			style="background-color:#148CFF;">
 			<strong>등록</strong>
 		</a>
-
-
-		<ul class="pagination" style="position:relative;left:40%;">
-			<li class="page-item"><a href="#" class="page-link">«</a></li>
-			<li class="page-item"><a href="#" class="page-link">1</a></li>
-			<li class="page-item"><a href="#" class="page-link">2</a></li>
-			<li class="page-item"><a href="#" class="page-link">3</a></li>
-			<li class="page-item"><a href="#" class="page-link">»</a></li>
-		</ul>
+		<nav>
+			<ul class="pagination" style="position: relative; left: 30%;">
+					<c:if test="${pageVO.prev}">
+						<li class="page-item"><a class="page-link"
+							href="/admin/member/list?page=${pageVO.startPage-1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">이전</a></li>
+					</c:if>
+					<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}"
+						var="idx">
+						<li
+							class='page-item <c:out value="${idx==pageVO.page?'active':''}"/>'>
+							<a href="/admin/member/list?page=${idx}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}"
+							class="page-link">${idx} </a>
+						</li>
+					</c:forEach>
+					<c:if test="${pageVO.next}">
+						<li class="page-item"><a class="page-link"
+							href="/admin/member/list?page=${pageVO.endPage+1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">다음</a></li>
+					</c:if>
+				</ul>
+			</nav>
+			<br>
 	</div>
 	<!-- /.content -->
 </div>

@@ -95,10 +95,11 @@
 							style="background-color:yellow;">
 							<strong>등록</strong>
 						</button>
-						<a href="/admin/member/list" class="btn btn-default"
+						<a href="/admin/member/list?page=${pageVO.page}" class="btn btn-default"
 							style="background-color:skyblue;">
 							<strong>돌아가기</strong>
 						</a>
+						<input name="page" type="hidden" value="${pageVO.page}">
 				</form>
 			</div>
 			<!-- /.card-body -->

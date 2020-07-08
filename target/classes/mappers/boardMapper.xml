@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
 		</if>
  	</sql>
+ 	
 	<insert id="insertBoard">
 		INSERT INTO tbl_board(title, content, writer, regdate, view_count, reply_count)
 		VALUES(#{title}, #{content}, #{writer}, now(),#{view_count},#{reply_count})	
@@ -39,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE 1 = 1
 		<include refid="sqlWhere"/>
 		ORDER BY bno DESC<!-- ASC 오름차순 DESC 내림차순 -->
-		LIMIT #{startBno}, #{perPageNum}
+		LIMIT #{startNo}, #{perPageNum}
 	</select>
 	
 	<select id="countBno" resultType="int">

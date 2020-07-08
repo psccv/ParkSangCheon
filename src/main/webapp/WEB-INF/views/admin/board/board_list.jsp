@@ -39,7 +39,7 @@
 				</h3>
 				<br>
 				<div class="card-tools">
-					<form>
+					<form action="/admin/board/list">
 						<div class="input-group"
 							style="width: 500px; positon: relative; padding: 5px; right: 98%;">
 							<select class="form-control" name="searchType"
@@ -96,24 +96,26 @@
 			<a href="/admin/board/write" class="btn btn-default"
 				style="background-color: #148CFF;"> <strong>글쓰기</strong>
 			</a>
-			<ul class="pagination" style="position: relative; left: 30%;">
-				<c:if test="${pageVO.prev}">
-					<li class="page-item"><a class="page-link"
-						href="/admin/board/list?page=${pageVO.startPage-1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">이전</a></li>
-				</c:if>
-				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}"
-					var="idx">
-					<li
-						class='page-item <c:out value="${idx==pageVO.page?'active':''}"/>'>
-						<a href="/admin/board/list?page=${idx}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}"
-						class="page-link">${idx} </a>
-					</li>
-				</c:forEach>
-				<c:if test="${pageVO.next}">
-					<li class="page-item"><a class="page-link"
-						href="/admin/board/list?page=${pageVO.endPage+1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">다음</a></li>
-				</c:if>
-			</ul>
+			<nav>
+				<ul class="pagination" style="position: relative; left: 30%;">
+					<c:if test="${pageVO.prev}">
+						<li class="page-item"><a class="page-link"
+							href="/admin/board/list?page=${pageVO.startPage-1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">이전</a></li>
+					</c:if>
+					<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}"
+						var="idx">
+						<li
+							class='page-item <c:out value="${idx==pageVO.page?'active':''}"/>'>
+							<a href="/admin/board/list?page=${idx}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}"
+							class="page-link">${idx} </a>
+						</li>
+					</c:forEach>
+					<c:if test="${pageVO.next}">
+						<li class="page-item"><a class="page-link"
+							href="/admin/board/list?page=${pageVO.endPage+1}&searchType=${pageVO.searchType}&searchKeyword=${pageVO.searchKeyword}">다음</a></li>
+					</c:if>
+				</ul>
+			</nav>
 			<br>
 		</div>
 	</div>

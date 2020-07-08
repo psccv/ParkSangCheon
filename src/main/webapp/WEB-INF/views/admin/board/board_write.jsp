@@ -71,7 +71,7 @@
 							style="position:relative; background-color:#FFC314;">
 							<strong>등록</strong>
 						</button>
-						<a href="/admin/board/list" class="btn btn-default"
+						<a href="/admin/board/list?page=${pageVO.page}" class="btn btn-default"
 							style="position:relative; background-color:#3CA0FF;">
 							<strong>돌아가기</strong>
 						</a>
