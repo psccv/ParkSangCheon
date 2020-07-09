@@ -46,8 +46,8 @@
 					<dr>
 					<div class="form-group">
 						<label>패스워드</label> 
-						<input name="user_pw" value="${memberVO.user_pw}" type="text" class="form-control"
-							placeholder="패스워드">
+						<input name="user_pw" value="" type="text" class="form-control"
+							placeholder="${memberVO.user_pw}">
 					</div>
 					<dr>
 					<div class="form-group">
