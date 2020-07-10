@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="include/header.jsp"%>
+
+<script>
+	if('${param.msg}' == "fail"){
+		alert("로그인에 실패 했습니다.! \n\n" + 
+				"상세 메세지 : ${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}"); 
+	}
+</script>
+
 <!-- container -->
 <div id="container">
 	<!-- location_area -->
@@ -21,7 +30,7 @@
 	<!-- bodytext_area -->
 	<div class="bodytext_area box_inner">
 		<!-- appForm -->
-		<form action="#" class="appForm">
+		<form action="/login" method="POST" class="appForm">
 			<fieldset>
 				<legend>입력 양식</legend>
 				<p class="info_pilsoo pilsoo_item">필수입력</p>
