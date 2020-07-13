@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemberService;
+import org.edu.util.FileDataUtil;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
@@ -35,9 +36,8 @@ public class AdminController {
 	private IF_MemberService memberService;
 	@Inject
 	private IF_BoardService boardService;
-	//첨부파일 업로드 경로를 변수값으로 가져옴 servlet-context
-	@Resource(name="uploadPath")
-	private String uploadPath;
+	@Inject
+	private FileDataUtil fileDataUtil;
 	/**
 	 * 관리자 홈
 	 * @param locale
@@ -81,7 +81,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/member/view", method = RequestMethod.GET)
 	public String memberView(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("user_id") String user_id, Locale locale, Model model) throws Exception {
-		MemberVO memberVO = memberService.viewSelect(user_id);
+		MemberVO memberVO = memberService.viewMember(user_id);
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("memberVO", memberVO);
 		return "admin/member/member_view";
@@ -121,7 +121,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/member/update", method = RequestMethod.GET)
 	public String memberUpdate(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("user_id") String user_id, Locale locale, Model model) throws Exception {
-		MemberVO memberVO = memberService.viewSelect(user_id);
+		MemberVO memberVO = memberService.viewMember(user_id);
 		model.addAttribute("memberVO", memberVO);
 		model.addAttribute("pageVO", pageVO);
 		return "admin/member/member_update";
@@ -204,22 +204,6 @@ public class AdminController {
 	}
 	
 	/**
-	 * 게시물관리 상세보기 첨부파일 다운로드 입니다.
-	 * @param locale
-	 * @param model
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value="/download", method=RequestMethod.GET)
-	@ResponseBody
-	public FileSystemResource fileDownload(@RequestParam("fileName") String fileName, HttpServletResponse response) {
-		File file = new File(uploadPath + "/" + fileName);
-		response.setContentType("application/download; utf-8");
-		response.setHeader("Content-Disposition", "attachment; fileName=" + fileName);
-		return new FileSystemResource(file);
-	}
-	
-	/**
 	 * 게시물관리 등록 입니다.
 	 * @param locale
 	 * @param model
@@ -236,7 +220,7 @@ public class AdminController {
 			//첨부파일 없이 저장
 			boardService.insertBoard(boardVO);
 		}else {
-			String[] files = fileUpload(file);
+			String[] files = fileDataUtil.fileUpload(file);
 			boardVO.setFiles(files);
 			boardService.insertBoard(boardVO);			
 		}
@@ -267,13 +251,13 @@ public class AdminController {
 			List<String> delFiles = boardService.selectAttach(boardVO.getBno());
 			for(String fileName : delFiles) {
 				//실제파일 삭제
-				File target = new File(uploadPath, fileName);
+				File target = new File(fileDataUtil.getUploadPath(), fileName);
 				if(target.exists()) { //조건:해당경로에 파일명이 존재하면
 					target.delete();  //파일삭제
 				}//End if
 			}//End for
 			//아래 신규파일 업로드
-			String[] files = fileUpload(file);//실제파일업로드후 파일명 리턴
+			String[] files = fileDataUtil.fileUpload(file);//실제파일업로드후 파일명 리턴
 			boardVO.setFiles(files);//데이터베이스 <-> VO(get,set) <-> DAO클래스
 			boardService.updateBoard(boardVO);
 		}//End if
@@ -295,28 +279,13 @@ public class AdminController {
 		//첨부파일 삭제
 		for(String fileName : files) {
 			//삭제 명령문 추가
-			File target = new File(uploadPath, fileName);
+			File target = new File(fileDataUtil.getUploadPath(), fileName);
 			if(target.exists()) {
 				target.delete();
 			}
 		}
 		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/admin/board/list";
-	}
-	
-	/**************************************************************
-	 *		파일 업로드 함수 공통
-	 * @throws IOException 
-	 */
-	public String[] fileUpload(MultipartFile file) throws IOException {
-		String originalName = file.getOriginalFilename();//jsp에서 전송받은  파일 이름을 가져옴
-		UUID uid = UUID.randomUUID();//랜덤문자 구하기
-		String saveName = uid.toString()+"."+originalName.split("\\.")[1];//한글 파일명 처리 때문에
-		String[] files = new String[] {saveName};//형변환
-		byte[] fileData = file.getBytes();
-		File target = new File(uploadPath, saveName);
-		FileCopyUtils.copy(fileData, target);
-		return files;
 	}
 	
 }

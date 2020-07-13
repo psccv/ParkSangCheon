@@ -96,7 +96,7 @@
 			<a href="/admin/board/write" class="btn btn-default"
 				style="background-color: #148CFF;"> <strong>글쓰기</strong>
 			</a>
-			<nav>
+			<nav aria-label="Contacts Page Navigation">
 				<ul class="pagination" style="position: relative; left: 30%;">
 					<c:if test="${pageVO.prev}">
 						<li class="page-item"><a class="page-link"
