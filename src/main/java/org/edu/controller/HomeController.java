@@ -214,7 +214,6 @@ public class HomeController {
 		rdat.addFlashAttribute("msg", "loginSuccess");//result 데이터를 숨겨서 전송
 		return "redirect:/";//새로고침 자동 등록 방지를 위해서 아래처럼 처리
 	}
-	
 	/**
 	 * 게시물관리 목록 입니다.
 	 * @param locale
