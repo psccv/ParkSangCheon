@@ -32,20 +32,25 @@
 						pattern="yyyy-MM-dd HH:mm:ss" value="${boardVO.regdate}" /></span></li>
 			<li class="bbs_date">조회수 : <span>${boardVO.view_count}</span></li>
 			<li class="bbs_content">
-				<div class="editer_content">${boardVO.content}</div>
-			</li>
-			<li class="bbs_content">
-				<div class="form-group">
-						<label>첨부파일 다운로드</label><br>
-						<a href="/download?fileName=${boardVO.files[0]}"><strong style="font-size:30px;">${boardVO.files[0]}</strong></a>
+				<div class="editer_content" >
+					<textarea style="width:100%;padding-bottom:10px; min-height:200px;">${boardVO.content}</textarea>
 				</div>
-				<br>
-				<c:set var="extName" value="${fn:split(boardVO.files[0],'.')}" />
-				<c:set var="ext" value="${extName[fn:length(extName)-1]}"/>
-				<c:if test="${ext eq 'jpg'.toString()}">
-					<img src="/download?fileName=${boardVO.files[0]}" title="첨부파일 이미지">
-				</c:if>
 			</li>
+			
+			<c:if test="${boardVO.files[0] != null}">
+				<li class="bbs_content">
+					<div class="form-group">
+							<label>첨부파일 다운로드</label><br>
+							<a href="/download?fileName=${boardVO.files[0]}"><strong style="font-size:30px;">${boardVO.files[0]}</strong></a>
+					</div>
+					<br>
+					<c:set var="extName" value="${fn:split(boardVO.files[0],'.')}" />
+					<c:set var="ext" value="${extName[fn:length(extName)-1]}"/>
+					<c:if test="${fn:containsIgnoreCase(extNameArray, ext)}">
+						<img src="/download?fileName=${boardVO.files[0]}" title="첨부파일 이미지" style="width:100%;">
+					</c:if>
+				</li>
+			</c:if>
 		</ul>
 		
 		<p class="btn_line txt_right">

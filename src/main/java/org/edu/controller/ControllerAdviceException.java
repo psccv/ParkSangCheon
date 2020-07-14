@@ -1,6 +1,7 @@
 package org.edu.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,13 @@ public class ControllerAdviceException {
 		//logger.info(ex.toString()); //콘솔출력
 		ModelAndView modelAndView = new ModelAndView();
 		//ModelAndView.setViewName은 jsp 파일명과 매칭
-		modelAndView.setViewName("admin/error_controller");
+		HttpSession session = request.getSession(); //기존 로그인 세션 가져오기
+		if(session.getAttribute("session_levels") == "ROLE_ADMIN") {
+			modelAndView.setViewName("admin/error_controller");
+		}else {
+			modelAndView.setViewName("error_controller");
+		}
+		
 		modelAndView.addObject("exception", ex);
 		//에러 발생시 이전 페이지 URL을 session변수를 이용 해서 jsp로 보냄
 		String referer = request.getHeader("Referer");

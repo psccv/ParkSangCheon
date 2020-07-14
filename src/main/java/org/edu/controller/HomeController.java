@@ -1,6 +1,7 @@
 package org.edu.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -50,18 +51,32 @@ public class HomeController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+	public String home(Locale locale, Model model) throws Exception {
+		PageVO pageVO = new PageVO();
+		if(pageVO.getPage() == null) {
+			pageVO.setPage(1);//초기 page변수값 지정
+		}
+		pageVO.setPerPageNum(5);//1페이지당 보여줄 게시물 수 강제지정
+		pageVO.setTotalCount(boardService.countBno(pageVO));//강제로 입력한 값을 쿼리로 대체OK.
+		List<BoardVO> list = boardService.selectBoard(pageVO);
+		//첨부파일 출력 때문에 추가 Start
+		List<BoardVO> boardListFiles = new ArrayList<BoardVO>();
+		for(BoardVO vo:list) {
+			List<String> files = boardService.selectAttach(vo.getBno());
+			String[] filenames = new String[files.size()];
+			int cnt = 0;
+			for(String fileName : files) {
+				filenames[cnt++] = fileName;
+			}
+			vo.setFiles(filenames);//여기까지는 view상세보기와 똑같다
+			boardListFiles.add(vo);//상세보기에서 추가된 항목
+		}
+		model.addAttribute("extNameArray", fileDataUtil.getExtNameArray());//첨부파일이 이미지인지 문서파일인 구분용 jsp변수
+		//첨부파일 출력 때문에 추가 End
+		model.addAttribute("boardList", boardListFiles);		
 		return "home";
 	}
 		
@@ -213,7 +228,7 @@ public class HomeController {
 		if(pageVO.getPage() == null) {
 			pageVO.setPage(1);//초기 page변수값 지정
 		}
-		pageVO.setPerPageNum(10);//1페이지당 보여줄 게시물 수 강제지정
+		pageVO.setPerPageNum(5);//1페이지당 보여줄 게시물 수 강제지정
 		pageVO.setTotalCount(boardService.countBno(pageVO));//강제로 입력한 값을 쿼리로 대체OK.
 		List<BoardVO> list = boardService.selectBoard(pageVO);
 		//모델클래스로 jsp화면으로 boardService에서 셀렉트한 list값을 boardList변수명으로 보낸다.
@@ -240,10 +255,13 @@ public class HomeController {
 		for(String fileName : files) {
 			filenames[cnt++] = fileName;
 		}
+		//여러개 파일에서 1개 파일만 받는 것으로 변경
+		//String[] filenames = new String[] {files};
 		boardVO.setFiles(filenames);//String[]
 		//여기까지 첨부파일때문에 추가
 		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("extNameArray", fileDataUtil.getExtNameArray());
 		return "board/board_view";
 	}
 	
