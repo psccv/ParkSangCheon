@@ -136,7 +136,7 @@
             
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>게시판 목록</strong></h3>
+                <h3 id="boardName" class="card-title"><strong>게시판 목록</strong></h3>
 				<br>
                 <div class="card-tools">
                   <div class="input-group" style="width:500px;positon:relative;padding:5px;right:98%">
@@ -203,8 +203,8 @@
             <!-- /.card -->
             <div>
             
-            <button type="button" class="btn btn-default" onclick="location.href='/resources/board_write.html' " style="background-color:#148CFF">
-            <strong>글쓰기</strong>
+            <button type="button" class="btn btn-default"  style="background-color:#148CFF">
+            	<strong>글쓰기</strong>
             </button>
          	
          	<ul class="pagination" style="position:relative;left:40%;">
@@ -251,5 +251,44 @@
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+<script>
+//스크립트 고전 방식
+function myFunc() { //정의
+	alert('테스트');
+}
+myFunc(); //호출
+
+// JQuery 스크립트 방식
+$(document).ready(function(){// 함수명 없이 실행되는 콜백함수
+	alert('테스트2');
+	// 클래스는 . 아이디는 # 	
+	var cnt = 5;
+	$(".btn-default").bind("click", function(event){
+		
+		$("<tr><td>"+ cnt +"</td><td>한줄추가</td><td>내용추가</td><td>2020.07.15</td><td>112</td></tr>").prependTo("table");	
+		cnt++;
+	});
+	//$("table thead tr").css({"background-color":"red"});
+	//$(".btn-default").css({"background-color":"red"});
+	//$("#boardList").css({"background-color":"red"});
+	//예전 방식
+	//document.getElementById("boardName").style.fontSize = "100px";    
+	//$("tr").css("background-color","red");
+	//$("tr").css({"background-color":"red", "color":"blue"});
+});
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

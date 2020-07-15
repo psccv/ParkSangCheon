@@ -21,7 +21,7 @@
 		<!-- //location_area -->
 
 		<!-- bodytext_area -->
-		<div class="bodytext_area box_inner">			
+		<div class="bodytext_area box_inner">		
 			<ul class="bbsview_list">
 				<li class="bbs_title">${boardVO.title}</li>
 				<li class="bbs_hit">작성일 : <span><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${boardVO.regdate}" /></span></li>
@@ -44,6 +44,10 @@
 				</c:if>
 			</ul>
 			<p class="btn_line txt_right">
+				<c:if test="${session_enabled}">
+					<a href="/board/update?page=${pageVO.page}&bno=${boardVO.bno}" class="btn_bbs">수정</a>
+					<a href="javascript:;" id="deleteBno" class="btn_bbs">삭제</a>		
+				</c:if>
 				<a href="/board/list?page=${pageVO.page}" class="btn_bbs">목록</a>
 			</p>
 		</div>
@@ -51,5 +55,36 @@
 
 	</div>
 <!-- //container -->
-	
+<form id="deleteForm" method="POST">
+	<input name="bno" id="bno" type="hidden" value="${boardVO.bno}">
+</form>
+<script>
+$(document).ready(function(){
+	$("#deleteBno").bind("click", function(){
+		if(confirm("삭제 하시겠습니까?")){
+			var formObj = $("#deleteForm");
+			formObj.attr("action","/board/delete");
+			formObj.attr("method", "post");
+			//alert($("#bno").val());//디버그용
+			formObj.submit();
+		}else{
+			return false;
+		}
+		
+	})
+});
+</script>
 <%@ include file="../include/footer.jsp" %>
+
+
+
+
+
+
+
+
+
+
+
+
+

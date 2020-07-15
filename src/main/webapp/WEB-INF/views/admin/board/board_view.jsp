@@ -51,7 +51,7 @@
 					</div>
 					<div class="form-group">
 						<label>첨부파일 다운로드</label><br>
-						<a href="/download?fileName=${boardVO.files[0]}">${boardVO.files[0]}</a>
+						<a href="/download?filename=${boardVO.files[0]}">${boardVO.files[0]}</a>
 					</div>
 					<div class="form-group">
 						<a href="/admin/board/update?bno=${boardVO.bno}&page=${pageVO.page}" class="btn btn-default"

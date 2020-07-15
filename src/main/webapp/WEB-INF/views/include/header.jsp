@@ -25,6 +25,10 @@
 	switch('${msg}'){
 		case "loginSuccess" : alert("로그인 완료.!"); 
 		break;
+		case "updateSuccess" : alert("수정 완료.!");
+		break;
+		case "deleteSuccess" : alert("삭제 완료.!");
+		break;
 	}
 </script>
 </head>
