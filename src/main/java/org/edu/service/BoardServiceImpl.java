@@ -5,9 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.edu.dao.IF_BoardDAO;
-import org.edu.dao.IF_MemberDAO;
 import org.edu.vo.BoardVO;
-import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

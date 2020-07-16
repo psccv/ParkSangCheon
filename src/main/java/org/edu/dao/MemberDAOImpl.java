@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
 import org.springframework.stereotype.Repository;
+
 @Repository
 public class MemberDAOImpl implements IF_MemberDAO {
 	

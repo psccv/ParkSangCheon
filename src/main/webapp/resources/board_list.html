@@ -156,7 +156,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" style="text-align:center">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap even_table">
                   <thead>
                     <tr>
                       <th>번호</th>
@@ -213,9 +213,9 @@
 			    <li class="page-item"><a href="#" class="page-link">2</a></li>
 			    <li class="page-item"><a href="#" class="page-link">3</a></li>
 			    <li class="page-item"><a href="#" class="page-link">»</a></li>
-		     </ul>
-		     </div>
-    </div>
+		    </ul>
+		</div>
+	</div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -262,11 +262,15 @@ myFunc(); //호출
 $(document).ready(function(){// 함수명 없이 실행되는 콜백함수
 	alert('테스트2');
 	// 클래스는 . 아이디는 # 	
+	$(".even_table tbody tr:even").css({"background-color":"black","color":"white"});
 	var cnt = 5;
+	
 	$(".btn-default").bind("click", function(event){
-		
-		$("<tr><td>"+ cnt +"</td><td>한줄추가</td><td>내용추가</td><td>2020.07.15</td><td>112</td></tr>").prependTo("table");	
-		cnt++;
+		$(".even_table tbody tr").each(function(index, item){
+			$(item).addClass("hong_" + index);
+		})
+		//$("<tr><td>"+ cnt +"</td><td>한줄추가</td><td>내용추가</td><td>2020.07.15</td><td>112</td></tr>").prependTo(".even_table tbody");	
+		//cnt++;
 	});
 	//$("table thead tr").css({"background-color":"red"});
 	//$(".btn-default").css({"background-color":"red"});
