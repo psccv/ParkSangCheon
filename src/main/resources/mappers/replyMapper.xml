@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<update id="updateReply">
-		update tbl_reply SET
+		UPDATE tbl_reply SET
 		replytext = #{replytext},
 		update_date = now()
 		WHERE rno = #{rno}

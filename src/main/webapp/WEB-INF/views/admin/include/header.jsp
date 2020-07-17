@@ -17,6 +17,8 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- jQuery -->
+
 
 <script>
 	switch('${msg}'){
@@ -28,7 +30,7 @@
 		break;
 	}
 </script>
-
+<script src="/resources/plugins/jquery/jquery.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">

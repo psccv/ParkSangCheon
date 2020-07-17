@@ -18,7 +18,7 @@ public class ReplyDAOImpl implements IF_ReplyDAO {
 	
 	@Override
 	public List<ReplyVO> selectReply(Integer bno) throws Exception {
-		return sqlSession.selectList(mapperQuery + ".selectReply");
+		return sqlSession.selectList(mapperQuery + ".selectReply", bno);
 	}
 
 	@Override
