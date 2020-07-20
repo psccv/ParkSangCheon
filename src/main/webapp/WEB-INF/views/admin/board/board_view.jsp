@@ -111,9 +111,7 @@
 					<div class="replyLi" data-rno={{rno}}>
 						<i class="fas fa-comments bg-blue"></i>
 						<div class="timeline-item">
-							<h3 class="timeline-header">
-								<a href="#">{{rno}}-{{replyer}}</a>
-							</h3>
+							<h3 class="timeline-header">{{replyer}}</h3>
 							<div class="timeline-body">{{replytext}}</div>
 							<div class="timeline-footer">
 								<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal">수정</a>
@@ -125,22 +123,48 @@
 				<script>
 					//댓글 변수 초기화
 					var bno = ${boardVO.bno};
-					var printData = function(replyArr, target, templateObject) {
+					var page = 1;//페이징변수 초기값
+					//replyArr=Json배열데이터 파싱, target=출력위치, template~=반복구문
+					var printReplyList = function(replyArr, target, templateObject) {
 						var template = Handlebars.compile(templateObject.html());
 						var html = template(replyArr);
 						$(".replyLi").remove();
 						target.after(html);
 					}
+					//pageVO를 파싱하는 함수(아래)
+					var printPageVO = function(pageVO, target){
+						var paging = "";
+						//console.log(PageVO);
+						if(pageVO.prev){
+							
+						}
+						for(var cnt=pageVO.startPage;cnt<pageVO.endPage;cnt++){
+							var active = (cnt==pageVO.page)?"active":"";
+							paging = paging + '<li class="page-item ' +active+ '"><a class="page-link" href="' +cnt+ '">' +cnt+ '</a></li>';
+						}
+						if(pageVO.next){
+							
+						}
+						target.html(printPaging);
+					}
 					function getPage(pageInfo) {
 						$.getJSON(pageInfo, function(data) {
-							printData(data, $("#replyDiv"), $('#template'));
-							//$("#modifyModal").modal('hide');
+							//alert(pageInfo);//디버그
+							printReplyList(data.replyList, $("#replyDiv"), $("#template"));
+							printPageVO(data.pageVO, $(".pagination"));
+							$("#modifyModal").modal("hide");//수정, 삭제 후 모달창 닫기
 						});
 					}
 					//여기까지는 변수+함수 정의
 					//댓글 리스트 실행
 					$(document).ready(function() {
-						getPage("/reply/select/" + bno);
+						getPage("/reply/select/"+bno+"/"+page);
+						//페이지번호 클릭시 페이지 이동이 아니고, getPage함수 실행이 되면 OK.
+						$(".pagination").on("click","li a", function(event){
+							event.preventDefault();//기본 a href 이동 이벤트를 금지
+							page=$(this).attr("href");//페이지번호 1,2,3...
+							getPage("/reply/select/"+bno+"/"+page);
+						});
 					});
 				</script>
 				
@@ -155,7 +179,48 @@
 			</div>
 			<script>
 				$(document).ready(function(){
-					$("#insertApplyBtn").bind("click",function(){
+					$("#replyDelBtn").on("click",function(){
+						var rno = $("#rno").val();
+						$.ajax({
+							type:'delete',
+							url:'/reply/delete/'+rno,
+							headers:{
+								"Content-type":"application/json",
+								"X-HTTP-Method-Override":"DELETE"
+							},
+							success:function(result){
+								if(result=='SUCCESS'){
+									alert("삭제 되었습니다.");
+									getPage("/reply/select/"+bno+"/"+page);
+								}
+							}
+						});
+					});
+					$("#replyModBtn").on("click",function(){
+						var replytext = $("#replytext").val();
+						var rno = $("#rno").val();
+						//alert(replytext + rno);//디버그 : 입력값 확인용
+						//return false;//디버그 : 여기까지 실행 끝내는 명령
+						$.ajax({
+							type:'put',
+							url:'/reply/update/'+rno,
+							headers:{
+								"Content-type":"application/json",
+								"X-HTTP-Method-Override":"PUT"
+							},
+							dataType:'text',
+							data:JSON.stringify({
+								replytext:replytext
+							}),
+							success:function(result){
+								if(result=='SUCCESS'){
+									alert("수정 되었습니다.");
+									getPage("/reply/select/"+bno+"/"+page);
+								}
+							}
+						});
+					});
+					$("#insertApplyBtn").on("click",function(){
 						var replyer = $("#replyerInput").val();
 						var replytext = $("#replytextInput").val();
 						$.ajax({
@@ -174,7 +239,7 @@
 							success:function(result){
 								if(result=='SUCCESS'){
 									alert("등록 되었습니다.");
-									getPage("/reply/select/" + bno);
+									getPage("/reply/select/"+bno+"/"+page);
 									$("#replyerInput").val("");
 									$("#replytextInput").val("");
 								}
@@ -185,11 +250,12 @@
 			</script>
 			<script>
 			$(document).ready(function(){
-				//선택한 댓글에 대한 모달창에 데이터 바인딩
+				//선택한 댓글(template:빵틀)의 데이터를 모달창의 id.클래스에 데이터 바인딩
 				$(".timeline").on("click", ".replyLi", function(event){
 					var reply = $(this);
+					$("#rno").val(reply.attr("data-rno"));
+					$(".modal-title").html(reply.find('.timeline-header').text());
 					$("#replytext").val(reply.find('.timeline-body').text());
-					$(".modal-title").html(reply.attr("data-rno"));
 				});
 			});
 			</script>
@@ -203,12 +269,13 @@
 							<h4 class="modal-title"></h4>
 						</div>
 						<div class="modal-body" data-rno>
+							<input type="hidden" id="rno" class="form-control">
 							<p><input type="text" id="replytext" class="form-control"></p>
 						</div>
 						<div class="modal-footer">
-								<button type="button" class="btn btn-info" id="replyModBtn">Modify</button>
-								<button type="button" class="btn btn-danger" id="replyDelBtn">DELETE</button>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-info" id="replyModBtn">Modify</button>
+							<button type="button" class="btn btn-danger" id="replyDelBtn">DELETE</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
