@@ -21,7 +21,7 @@ public class ReplyDAOImpl implements IF_ReplyDAO {
 	
 	@Override
 	public List<ReplyVO> selectReply(Integer bno, PageVO pageVO) throws Exception {
-		Map<String,Object> paramMap = new HashMap<String, Object>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bno", bno);
 		paramMap.put("pageVO", pageVO);
 		return sqlSession.selectList(mapperQuery + ".selectReply", paramMap);

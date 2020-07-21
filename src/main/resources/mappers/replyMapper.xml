@@ -15,31 +15,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="org.edu.dao.IF_ReplyDAO">
-
-	<select id="selectReply" resultType="org.edu.vo.ReplyVO">		
-		SELECT * FROM tbl_reply WHERE bno = #{bno}
-		ORDER BY regdate DESC
-		LIMIT #{pageVO.startNo} , #{pageVO.perPageNum}
+	<select id="selectReply" resultType="org.edu.vo.ReplyVO">
+		select * from tbl_reply where bno = #{bno} 
+		order by regdate desc
+		limit #{pageVO.startNo} , #{pageVO.perPageNum}
 	</select>
-	
 	<select id="countRno" resultType="int">
-		SELECT COUNT(*) FROM tbl_reply WHERE bno = #{bno}
+		select count(*) from tbl_reply where bno = #{bno}
 	</select>
-	
 	<insert id="insertReply">
-		INSERT INTO tbl_reply(bno, replytext, replyer, regdate)
-		VALUES(#{bno}, #{replytext}, #{replyer}, now())
+		insert into tbl_reply (
+			bno, replytext, replyer, regdate
+		) values (
+			#{bno}, #{replytext}, #{replyer}, now()
+		)
 	</insert>
-	
 	<update id="updateReply">
-		UPDATE tbl_reply SET
+		update tbl_reply set
 		replytext = #{replytext},
 		update_date = now()
-		WHERE rno = #{rno}
+		where rno = #{rno}
 	</update>
-	
 	<delete id="deleteReply">
-		DELETE FROM tbl_reply WHERE rno = #{rno}
+		delete from tbl_reply where rno = #{rno}
 	</delete>
-		
 </mapper>
