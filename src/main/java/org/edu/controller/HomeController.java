@@ -196,24 +196,24 @@ public class HomeController {
 		if (enabled) { //인증처리가 완료된 사용자의 권한체크(아래)
 			Collection<? extends GrantedAuthority>  authorities = authentication.getAuthorities();
 			if(authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ANONYMOUS")).findAny().isPresent())
-			{levels = "ROLE_ANONYMOUS";}
+			{levels = "ROLE_ANONYMOUS";}//게스트 인지
 			if(authorities.stream().filter(o -> o.getAuthority().equals("ROLE_USER,")).findAny().isPresent())
-			{levels = "ROLE_USER,";}
+			{levels = "ROLE_USER,";}//사용자 인지
 			if(authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ADMIN")).findAny().isPresent())
-			{levels = "ROLE_ADMIN";}
+			{levels = "ROLE_ADMIN";}//관리자 인지
 			userid =((UserDetails)principal).getUsername();
 			//로그인 세션 저장
 			session.setAttribute("session_enabled", enabled);//인증확인
 			session.setAttribute("session_userid", userid);//사용자아이디
 			session.setAttribute("session_levels", levels);//사용자권한
 			//=========== 상단은 스프링시큐리티에서 기본제공하는 세션 변수처리
-			//=========== 하단은 우리가 추가한는 세션 변수처리
+			//=========== 하단은 내가 추가한는 세션 변수처리
 			//회원이름 구하기 추가
 			MemberVO memberVO = memberService.viewMember(userid);
-			session.setAttribute("session_username", memberVO.getUser_name());//사용자명
+			session.setAttribute("session_username", memberVO.getUser_name());//사용자명 세팅
         	}
 		rdat.addFlashAttribute("msg", "loginSuccess");//result 데이터를 숨겨서 전송
-		return "redirect:/";//새로고침 자동 등록 방지를 위해서 아래처럼 처리
+		return "redirect:/";//새로고침 자동 등록 방지를 위해 redirect 사용
 	}
 	/**
 	 * 게시물관리 목록 입니다.

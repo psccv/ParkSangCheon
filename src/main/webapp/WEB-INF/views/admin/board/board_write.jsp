@@ -62,7 +62,10 @@
 							<tr>
 								<td>아래 기존 파일 업로드 창 사용가능</td>
 								<br>
-								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" /></td>
+								<td>
+								<!-- 파일정보를 가져온다 -->
+								<input type="file" value="파일 선택" name="file" style="background-color:silver;" />
+								</td>
 							</tr>
 						</div>
 					</div>

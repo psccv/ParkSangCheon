@@ -1,14 +1,10 @@
 package org.edu.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.edu.service.IF_BoardService;
@@ -17,16 +13,13 @@ import org.edu.util.FileDataUtil;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -170,8 +163,8 @@ public class AdminController {
 		if(pageVO.getPage() == null) {
 			pageVO.setPage(1);//초기 page변수값 지정
 		}
-		pageVO.setPerPageNum(10);//1페이지당 보여줄 게시물 수 강제지정
-		pageVO.setTotalCount(boardService.countBno(pageVO));//강제로 입력한 값을 쿼리로 대체OK.
+		pageVO.setPerPageNum(10);//1페이지당 보여줄 게시물 수 지정
+		pageVO.setTotalCount(boardService.countBno(pageVO));//입력한 값을 쿼리로 대체
 		List<BoardVO> list = boardService.selectBoard(pageVO);
 		//모델클래스로 jsp화면으로 boardService에서 셀렉트한 list값을 boardList변수명으로 보낸다.
 		//model { list -> boardList -> jsp }
@@ -191,16 +184,16 @@ public class AdminController {
 	public String boardView(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno,Locale locale, Model model) throws Exception {
 		BoardVO boardVO = boardService.viewBoard(bno);
 		//여기서 부터 첨부파일명 때문에 추가
-		List<String> files = boardService.selectAttach(bno);
-		String[] filenames = new String[files.size()];
+		List<String> files = boardService.selectAttach(bno);//bno값에 저장된 파일명을 가져옴
+		String[] filenames = new String[files.size()];//저장된갯수 만큼 filenames배열 개수 생성
 		int cnt = 0;
-		for(String fileName : files) {
-			filenames[cnt++] = fileName;
+		for(String fileName : files) {//파일명 수만큼 반복문
+			filenames[cnt++] = fileName;//filenames에 cnt값을 사용해서 인덱스에 파일명 저장
 		}
-		boardVO.setFiles(filenames);//String[]
+		boardVO.setFiles(filenames);//파일명 세팅
 		//여기까지 첨부파일때문에 추가
-		model.addAttribute("boardVO", boardVO);
-		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("boardVO", boardVO);//jsp단에서 사용할수있게 boardVO 값을 보내준다
+		model.addAttribute("pageVO", pageVO);//jsp단에서 사용할수있게 pageVO 값을 보내준다
 		return "admin/board/board_view";
 	}
 	
@@ -220,12 +213,12 @@ public class AdminController {
 		if(file.getOriginalFilename() == "") {
 			//첨부파일 없이 저장
 			boardService.insertBoard(boardVO);
-		}else {
-			String[] files = fileDataUtil.fileUpload(file);
-			boardVO.setFiles(files);
+		}else {//첨부파일 있을때 저장 
+			String[] files = fileDataUtil.fileUpload(file);//첨부파일을 업로드하고 업로드된 파일명을 가져옴
+			boardVO.setFiles(files);//업로드된 파일명을 게시물에 세팅
 			boardService.insertBoard(boardVO);			
 		}
-		rdat.addFlashAttribute("msg", "writeSuccess");
+		rdat.addFlashAttribute("msg", "writeSuccess");//게시물이 작성되면 성공 msg를 보낸다
 		return "redirect:/admin/board/list";
 	}
 	
@@ -252,7 +245,7 @@ public class AdminController {
 			List<String> delFiles = boardService.selectAttach(boardVO.getBno());
 			for(String fileName : delFiles) {
 				//실제파일 삭제
-				File target = new File(fileDataUtil.getUploadPath(), fileName);
+				File target = new File(fileDataUtil.getUploadPath(), fileName); //업로드된 경로와 파일명을 가져옴
 				if(target.exists()) { //조건:해당경로에 파일명이 존재하면
 					target.delete();  //파일삭제
 				}//End if
@@ -262,7 +255,8 @@ public class AdminController {
 			boardVO.setFiles(files);//데이터베이스 <-> VO(get,set) <-> DAO클래스
 			boardService.updateBoard(boardVO);
 		}//End if
-		rdat.addFlashAttribute("msg", "updateSuccess");
+		rdat.addFlashAttribute("msg", "updateSuccess");// 수정완료시 성공 msg를 보냄
+		//게시물 클릭하기 전 페이지 경로
 		return "redirect:/admin/board/view?bno=" + boardVO.getBno() + "&page=" + pageVO.getPage();
 	}
 	
@@ -275,17 +269,17 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/board/delete", method = RequestMethod.POST)
 	public String boardDelete(@RequestParam("bno") Integer bno, Locale locale, RedirectAttributes rdat) throws Exception {
-		List<String> files = boardService.selectAttach(bno);
+		List<String> files = boardService.selectAttach(bno);//첨부 파일명을 가져옴
 		boardService.deleteBoard(bno);
 		//첨부파일 삭제
 		for(String fileName : files) {
 			//삭제 명령문 추가
 			File target = new File(fileDataUtil.getUploadPath(), fileName);
-			if(target.exists()) {
-				target.delete();
+			if(target.exists()) {//경로에 파일명이 있을경우
+				target.delete();//파일 삭제
 			}
 		}
-		rdat.addFlashAttribute("msg", "deleteSuccess");
+		rdat.addFlashAttribute("msg", "deleteSuccess");//msg 를보내 삭제 성공을 알린다
 		return "redirect:/admin/board/list";
 	}
 	

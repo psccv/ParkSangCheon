@@ -64,7 +64,10 @@
 							<tr>
 								<td>아래 기존 파일 업로드 창 사용가능</td>
 								<br>
-								<td><input type="file" value="파일 선택" name="file" style="background-color:silver;" />${boardVO.files[0]}</td>
+								<td>
+								<!-- 업로드 할 파일정보를 가져오고 해당 게시물 파일 이름을 표시함 -->
+								<input type="file" value="파일 선택" name="file" 
+								style="background-color:silver;" />${boardVO.files[0]}</td>
 							</tr>
 						</div>
 					</div>
