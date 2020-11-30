@@ -38,13 +38,13 @@
 					<li class="clear"><label for="title"
 						class="tit_lbl pilsoo_item">아이디</label>
 						<div class="app_content">
-							<input type="text" class="w100p" id="user_id" name="user_id"
+							<input type="text" class="w100p" id="user_id" name="user_id" value="admin"
 								placeholder="아이디를 입력해주세요">
 						</div></li>
 					<li class="clear"><label for="writer"
 						class="tit_lbl pilsoo_item">암호</label>
 						<div class="app_content">
-							<input type="password" class="w100p" id="user_pw" name="user_pw"
+							<input type="password" class="w100p" id="user_pw" name="user_pw" value="user02"
 								placeholder="암호를 입력해주세요">
 						</div></li>
 				</ul>
