@@ -31,6 +31,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -417,6 +418,76 @@ public class HomeController {
 		}
 		rdat.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/board/list";
+	}
+	
+	
+	/**
+	 * 회원관리 등록 입니다.
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/mypage/insert", method = RequestMethod.GET)
+	public String memberWrite(Locale locale, Model model) throws Exception {
+		return "mypage/mypage_insert";
+	}
+	@RequestMapping(value = "/mypage/insert", method = RequestMethod.POST)
+	public String memberWrite(@Valid MemberVO memberVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		String new_pw = memberVO.getUser_pw();//1234
+		if(new_pw != "") {
+			//스프링 시큐리티 4.x BCryptPasswordEncoder  암호화 사용
+			BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder(10);
+			String bcryptPassword = bcryptPasswordEncoder.encode(new_pw);
+			memberVO.setUser_pw(bcryptPassword);
+		}
+		memberService.insertMember(memberVO);
+		rdat.addFlashAttribute("msg", "writeSuccess");
+		return "redirect:/";
+	}
+	
+	/**
+	 * 회원관리 수정 입니다.
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/mypage/update", method = RequestMethod.GET)
+	public String memberUpdate(HttpServletRequest request, Locale locale, Model model) throws Exception {
+		HttpSession session = request.getSession();
+		MemberVO memberVO = memberService.viewMember((String)session.getAttribute("session_userid"));
+		model.addAttribute("memberVO", memberVO);
+		return "mypage/mypage_update";
+	}
+	@RequestMapping(value = "/mypage/update", method = RequestMethod.POST)
+	public String memberUpdate(MemberVO memberVO, Locale locale, RedirectAttributes rdat, HttpServletRequest request) throws Exception {
+		String new_pw = memberVO.getUser_pw();//1234
+		if(new_pw != "") {
+			//스프링 시큐리티 4.x BCryptPasswordEncoder  암호화 사용
+			BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder(10);
+			String bcryptPassword = bcryptPasswordEncoder.encode(new_pw);
+			memberVO.setUser_pw(bcryptPassword);
+		}
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "updateSuccess");
+		//회원이름 세션변수 변경처리 session_username
+		HttpSession session = request.getSession();//기존세션값 가져오기
+		session.setAttribute("session_username", memberVO.getUser_name());
+		return "redirect:/mypage/update";
+	}
+	
+	/**
+	 * 회원관리 탈퇴(삭제가 아니고 비활성화) 입니다.
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/mypage/delete", method = RequestMethod.POST)
+	public String memberDelete(MemberVO memberVO, Locale locale, RedirectAttributes rdat) throws Exception {
+		String new_pw = memberVO.getUser_pw();//1234
+		if(new_pw != "") {
+			//스프링 시큐리티 4.x BCryptPasswordEncoder  암호화 사용
+			BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder(10);
+			String bcryptPassword = bcryptPasswordEncoder.encode(new_pw);
+			memberVO.setUser_pw(bcryptPassword);
+		}
+		memberVO.setEnabled(false); //회원정보 사용중지 아이디 지정 비활성화
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "deleteSuccess");
+		return "redirect:/logout";
 	}
 	
 	

@@ -60,7 +60,7 @@
 							</c:when>
 							<c:otherwise>
 								<li><a href="/login">로그인</a></li>
-								<li><a href="#">회원가입</a></li>
+								<li><a href="/mypage/insert">회원가입</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>
