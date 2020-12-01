@@ -54,6 +54,9 @@
 			</fieldset>
 		</form>
 		<!-- //appForm -->
+		<p class="btn_line">
+			<a href="${url}" class="btn_baseColor" style="background-color:green; width:200px;">네이버 ID로 로그인</a>
+		</p>
 	</div>
 	<!-- //bodytext_area -->
 </div>

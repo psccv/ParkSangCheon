@@ -1,6 +1,7 @@
 package org.edu.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,10 +20,15 @@ import org.edu.util.FileDataUtil;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
 
 /**
  * Handles requests for the application home page.
@@ -46,6 +54,8 @@ public class HomeController {
 	private IF_BoardService boardService;
 	@Inject
 	private FileDataUtil fileDataUtil;
+	@Inject
+	private NaverLoginController naverLoginController;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -168,11 +178,70 @@ public class HomeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale, Model model) {
-		
-
+	public String login(Locale locale, Model model, HttpSession session) {
+		/*
+		 * 네이버아이디로 인증 URL을 생서하기 위하여 naverLoginController클래스의 getAuthorizationUrl메소드 호출 
+		 * session은 전역변수와 같은 역할
+		 * naverAuthUrl은 http://127.0.0.1:8080/login 이고, 이값을 
+		 * 네이버 API에서 가져오는 메소드가 getAuthorizationUrl(session)
+		 */
+		String naverAuthUrl = naverLoginController.getAuthorizationUrl(session);
+		model.addAttribute("url", naverAuthUrl);//url변수값이 login.jsp 전송됨.
 		return "login";
 	}
+	
+	@RequestMapping(value = "/login_callback", method = { RequestMethod.GET, RequestMethod.POST })
+	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, RedirectAttributes rdat)
+			throws IOException, ParseException {
+		OAuth2AccessToken oauthToken;//인증정보가 저장된 데이터 변수
+        oauthToken = naverLoginController.getAccessToken(session, code, state);
+      //네이버에 로그인한 사용자 정보를 읽어온다(아래) 토큰인증정보에서 String으로 사용자정보 뽑기
+	    String apiResult = naverLoginController.getUserProfile(oauthToken);
+		//model.addAttribute("result", apiResult);
+	    //위에 jsp로 변수값 보내는 로직을 타지 않고, 스프링 시큐리티 로직을 탈겁니다.
+	    /* Json 데이터 파싱 시작 */
+	    /** apiResult json 구조
+	    {"resultcode":"00",
+	    "message":"success",
+	    "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
+	    **/
+	    //String형식인 apiResult를 json형태로 바꿈
+	    JSONParser parser = new JSONParser();
+	    Object obj = parser.parse(apiResult);
+	    JSONObject jsonObj = (JSONObject) obj;
+	    //Top레벨 단계 _response 파싱
+	    JSONObject response_obj = (JSONObject)jsonObj.get("response");
+	    //response의 name값 파싱
+	    String username = (String)response_obj.get("name");
+	    String useremail = (String)response_obj.get("email");
+	    String Status = (String)jsonObj.get("message");
+	    /* Json 데이터 파싱 끝 */
+	    
+	    //SNS로그인이 성공이라면
+	    if(Status.equals("success")) {
+	    	//진짜 핵심: 스크링시큐리티와 연동시키는 로직(아래)
+			/* SNS로 로그인한 사람들은 강제로 스프링 시큐리티 인증처리 함 아래 */
+		    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		  //authority 권한에 ROLE_USEA 권한만 줍니다.(아래)
+	        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+	      //authentication 인증에 강제로 email을 부여하고, 암호는 null로 처리(아래)
+	        Authentication authentication =  new UsernamePasswordAuthenticationToken(useremail, null, authorities);
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        
+		    /* 로그인 세션 저장 */
+			session.setAttribute("session_enabled", true);//인증확인
+			session.setAttribute("session_userid", useremail);//사용자이메일
+			session.setAttribute("session_levels", "ROLE_USER");//사용자권한
+			session.setAttribute("session_username", username);//사용이이름
+			rdat.addFlashAttribute("msg", "로그인");//result 데이터를 숨겨서 전송
+	    } else {
+	    	rdat.addFlashAttribute("param.msg", "fail");//result 데이터를 숨겨서 전송
+	    	return "redirect:/login";//새로고침 자동 등록 방지를 위해서 아래처럼 처리
+	    }
+        /* 네이버 로그인 성공 페이지 View 호출 */
+		return "redirect:/";//새로고침 자동 등록 방지를 위해서 아래처럼 처리
+	}
+	
 	/**스프링 시큐리티 security-context.xml 설정한 로그인 처리 결과 화면
 	 * @param locale
 	 * @param request
